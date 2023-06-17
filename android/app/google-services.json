@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "410582112428",
+    "project_id": "aplikasiklinik-e010c",
+    "storage_bucket": "aplikasiklinik-e010c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410582112428:android:cd99c54a435b47d8856709",
+        "android_client_info": {
+          "package_name": "com.example.aplikasiklinik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "410582112428-tu74js8ea8sn828du0gbr6m0th5jn72e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZm2Cbk_iGQJayvr3aczJyqPXUfIG9vBE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "410582112428-tu74js8ea8sn828du0gbr6m0th5jn72e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
