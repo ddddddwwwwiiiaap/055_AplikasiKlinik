@@ -1,4 +1,5 @@
 import 'package:aplikasiklinik/view/login.dart';
+import 'package:aplikasiklinik/view/register.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
