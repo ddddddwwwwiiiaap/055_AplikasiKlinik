@@ -26,8 +26,8 @@ class HomePagesPasienController{
       email: um.email,
       role: um.role,
       nomorhp: um.nomorhp,
-      jeniskelamin: um.jeniskelamin,
-      tanggallahir: um.tanggallahir,
+      jekel: um.jekel,
+      tglLahir: um.tglLahir,
       alamat: um.alamat,
     );
     await docref.update(userModel.toMap());
@@ -37,5 +37,9 @@ class HomePagesPasienController{
     final user = await userCollection.get();
     streamController.add(user.docs);
     return user.docs;
+  }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

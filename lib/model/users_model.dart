@@ -9,8 +9,8 @@ class UsersModel {
   String email;
   String role;
   String nomorhp;
-  String jeniskelamin;
-  String tanggallahir;
+  String jekel;
+  String tglLahir;
   String alamat;
   UsersModel({
     this.uId,
@@ -18,8 +18,8 @@ class UsersModel {
     required this.email,
     required this.role,
     required this.nomorhp,
-    required this.jeniskelamin,
-    required this.tanggallahir,
+    required this.jekel,
+    required this.tglLahir,
     required this.alamat,
   });
 
@@ -30,8 +30,8 @@ class UsersModel {
       'email': email,
       'role': role,
       'nomorhp': nomorhp,
-      'jeniskelamin': jeniskelamin,
-      'tanggallahir': tanggallahir,
+      'jekel': jekel,
+      'tglLahir': tglLahir,
       'alamat': alamat,
     };
   }
@@ -43,8 +43,8 @@ class UsersModel {
       email: map['email'] as String,
       role: map['role'] as String,
       nomorhp: map['nomorhp'] as String,
-      jeniskelamin: map['jeniskelamin'] as String,
-      tanggallahir: map['tanggallahir'] as String,
+      jekel: map['jekel'] as String,
+      tglLahir: map['tglLahir'] as String,
       alamat: map['alamat'] as String,
     );
   }
