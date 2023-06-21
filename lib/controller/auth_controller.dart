@@ -89,4 +89,30 @@ class AuthController {
   Future<void> signOut() async {
     await auth.signOut();
   }
+
+  //get user
+  Future<dynamic> getUser() async {
+  final User? user = auth.currentUser;
+  if (user != null) {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .where('uId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((result) {
+      if (result.docs.isNotEmpty) {
+        final UsersModel currentUser = UsersModel(
+          uId: user.uid,
+          nama: result.docs[0].data()['nama'],
+          email: user.email ?? '',
+          role: result.docs[0].data()['role'],
+          nomorhp: result.docs[0].data()['nomorhp'],
+          jekel: result.docs[0].data()['jekel'],
+          tglLahir: result.docs[0].data()['tglLahir'],
+          alamat: result.docs[0].data()['alamat'],
+        );
+      }
+    });
+  }
+}
+
 }

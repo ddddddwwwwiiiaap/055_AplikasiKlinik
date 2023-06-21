@@ -5,6 +5,8 @@ import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
 import 'package:aplikasiklinik/view/home_pages.dart';
 import 'package:aplikasiklinik/view/register.dart';
+import 'package:aplikasiklinik/view/role_pages.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -26,6 +28,30 @@ class _LoginState extends State<Login> {
     setState(() {
       _showPassword = !_showPassword;
     });
+  }
+
+  Future<dynamic> login() async {
+    if (formkey.currentState!.validate()) {
+      showAlertDialogLoading(context);
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: email!, password: password!);
+
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const RolesPages()),
+            (route) => false);
+            
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          Navigator.pop(context);
+          showAlertUserNotFound();
+        } else if (e.code == 'wrong-password') {
+          Navigator.pop(context);
+          showAlertUserWrongPassword();
+        }
+      }
+    }
   }
 
   showAlertUserNotFound() {
@@ -244,85 +270,105 @@ class _LoginState extends State<Login> {
 
   Widget buildButtonLogin() {
     return ElevatedButton(
-      onPressed: () async {
-        if (formkey.currentState!.validate()) {
-          UsersModel? loginUser = await authCtr.signInWithEmailAndPassword(
-            email!,
-            password!,
-          );
-          if (loginUser != null) {
-            // Login successful
-            // ignore: use_build_context_synchronously
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Login Successful!'),
-                  content: const Text('You have been successfully logged in.'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const HomePages();
-                            },
-                          ),
-                        );
-                      },
-                      child: const Text('OK'),
-                    ),
-                  ],
-                );
-              },
-            );
-          } else {
-            // Login unsuccessful
-            // ignore: use_build_context_synchronously
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Login Unsuccessful!'),
-                  content: const Text(
-                      'Please check your email and password and try again.'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('OK'),
-                    ),
-                  ],
-                );
-              },
-            );
-          }
-        }
-      },
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(colorButton),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        )),
-      ),
-      child: Container(
-        width: 120,
-        height: 40,
-        child: const Center(
-          child: Text(
-            titleLogin,
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ),
-    );
+        onPressed: login,
+        style: ButtonStyle(
+            backgroundColor: const MaterialStatePropertyAll(colorButton),
+            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24)))),
+        child: Container(
+            width: 120,
+            height: 40,
+            child: const Center(
+                child: Text(
+              titleLogin,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ))));
   }
+
+  // Widget buildButtonLogin() {
+  //   return ElevatedButton(
+  //     onPressed: () async {
+  //       if (formkey.currentState!.validate()) {
+  //         UsersModel? loginUser = await authCtr.signInWithEmailAndPassword(
+  //           email!,
+  //           password!,
+  //         );
+  //         if (loginUser != null) {
+  //           // Login successful
+  //           // ignore: use_build_context_synchronously
+  //           showDialog(
+  //             context: context,
+  //             builder: (BuildContext context) {
+  //               return AlertDialog(
+  //                 title: const Text('Login Successful!'),
+  //                 content: const Text('You have been successfully logged in.'),
+  //                 actions: <Widget>[
+  //                   TextButton(
+  //                     onPressed: () {
+  //                       Navigator.push(
+  //                         context,
+  //                         MaterialPageRoute(
+  //                           builder: (context) {
+  //                             return const HomePages();
+  //                           },
+  //                         ),
+  //                       );
+  //                     },
+  //                     child: const Text('OK'),
+  //                   ),
+  //                 ],
+  //               );
+  //             },
+  //           );
+  //         } else {
+  //           // Login unsuccessful
+  //           // ignore: use_build_context_synchronously
+  //           showDialog(
+  //             context: context,
+  //             builder: (BuildContext context) {
+  //               return AlertDialog(
+  //                 title: const Text('Login Unsuccessful!'),
+  //                 content: const Text(
+  //                     'Please check your email and password and try again.'),
+  //                 actions: <Widget>[
+  //                   TextButton(
+  //                     onPressed: () {
+  //                       Navigator.of(context).pop();
+  //                     },
+  //                     child: const Text('OK'),
+  //                   ),
+  //                 ],
+  //               );
+  //             },
+  //           );
+  //         }
+  //       }
+  //     },
+  //     style: ButtonStyle(
+  //       backgroundColor: MaterialStateProperty.all(colorButton),
+  //       shape: MaterialStateProperty.all(RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(24),
+  //       )),
+  //     ),
+  //     child: Container(
+  //       width: 120,
+  //       height: 40,
+  //       child: const Center(
+  //         child: Text(
+  //           titleLogin,
+  //           style: TextStyle(
+  //             color: Colors.black,
+  //             fontWeight: FontWeight.bold,
+  //             fontSize: 16,
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget buildFooter() {
     return Container(

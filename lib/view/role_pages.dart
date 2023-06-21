@@ -1,4 +1,5 @@
 import 'package:aplikasiklinik/controller/auth_controller.dart';
+import 'package:aplikasiklinik/view/dokter/home_pages_d.dart';
 import 'package:aplikasiklinik/view/home_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,53 +14,52 @@ class RolesPages extends StatefulWidget {
 
 class _RolesPagesState extends State<RolesPages> {
   final authCtr = AuthController();
-  String? uid;
+  String? uId;
   String? nama;
   String? email;
   String? role;
-  String? nomorHp;
+  String? nomorhp;
   String? jekel;
   String? tglLahir;
   String? alamat;
 
-  Future<dynamic> getUser() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((result) {
-      if (result.docs.isNotEmpty) {
-        setState(() {
-          uid = result.docs[0].data()['uid'];
-          nama = result.docs[0].data()['nama'];
-          email = result.docs[0].data()['email'];
-          role = result.docs[0].data()['role'];
-          nomorHp = result.docs[0].data()['nomor hp'];
-          tglLahir = result.docs[0].data()['tanggal lahir'];
-          alamat = result.docs[0].data()['alamat'];
-        });
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    getUser();
+    authCtr.getUser();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (role.toString() == "pasien") {
-      return HomePages();
-    } else if (role.toString() == "dokter") {
-      return HomePages();
-    }
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          Map<String, dynamic>? data = snapshot.data!.data();
+          String? role = data!['role'];
 
-    return Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
+          if (role.toString() == "pasien") {
+            return const HomePages();
+          } else if (role.toString() == "dokter") {
+            return const HomePagesDokter();
+          }
+
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
     );
   }
 }

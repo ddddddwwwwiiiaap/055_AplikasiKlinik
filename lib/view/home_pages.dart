@@ -3,6 +3,8 @@ import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
 import 'package:aplikasiklinik/view/profile_pages.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePages extends StatefulWidget {
@@ -23,13 +25,12 @@ class _HomePagesState extends State<HomePages> {
   String? jekel;
   String? tglLahir;
   String? alamat;
-  String? poli;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    hppc.getUser();
+    getUser();
   }
 
   showDialogExitToApp() {
@@ -50,6 +51,26 @@ class _HomePagesState extends State<HomePages> {
             ],
           );
         });
+  }
+
+  Future<dynamic> getUser() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((result) {
+      if (result.docs.isNotEmpty) {
+        setState(() {
+          uId = result.docs[0].data()['uid'];
+          nama = result.docs[0].data()['nama'];
+          email = result.docs[0].data()['email'];
+          role = result.docs[0].data()['role'];
+          nomorHp = result.docs[0].data()['nomor hp'];
+          tglLahir = result.docs[0].data()['tanggal lahir'];
+          alamat = result.docs[0].data()['alamat'];
+        });
+      }
+    });
   }
 
   @override
