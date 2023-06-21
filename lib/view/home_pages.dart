@@ -2,6 +2,7 @@ import 'package:aplikasiklinik/controller/home_pages_pasien_controller.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
+import 'package:aplikasiklinik/view/profile_pages.dart';
 import 'package:flutter/material.dart';
 
 class HomePages extends StatefulWidget {
@@ -117,28 +118,28 @@ class _HomePagesState extends State<HomePages> {
               titleHome,
             ),
           ),
-          // ListTile(
-          //   onTap: () => Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (_) => ProfilePages(
-          //           uid: uId.toString(),
-          //           nama: nama.toString(),
-          //           email: email.toString(),
-          //           role: role.toString(),
-          //           nomorHp: nomorHp.toString(),
-          //           jekel: jekel.toString(),
-          //           tglLahir: tglLahir.toString(),
-          //           alamat: alamat.toString(),
-          //           isEdit: true))),
-          //           leading: Image.asset(
-          //     "assets/icon/icon_profile.png",
-          //     width: 24,
-          //   ),
-          //   title: Text(
-          //     titleProfile,
-          //   ),
-          // ),
+          ListTile(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ProfilePages(
+                    uid: uId.toString(),
+                    nama: nama.toString(),
+                    email: email.toString(),
+                    role: role.toString(),
+                    nomorHp: nomorHp.toString(),
+                    jekel: jekel.toString(),
+                    tglLahir: tglLahir.toString(),
+                    alamat: alamat.toString(),
+                    isEdit: true))),
+                    leading: Image.asset(
+              "assets/icon/icon_profile.png",
+              width: 24,
+            ),
+            title: Text(
+              titleProfile,
+            ),
+          ),
           // ListTile(
           //   onTap: () => Navigator.push(
           //       context,
