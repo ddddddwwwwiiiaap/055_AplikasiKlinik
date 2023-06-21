@@ -33,8 +33,14 @@ class AuthController {
 
         return currentUser;
       }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        // Tambahkan kode yang sesuai di sini untuk menangani kesalahan pengguna tidak ditemukan
+      } else if (e.code == 'wrong-password') {
+        // Tambahkan kode yang sesuai di sini untuk menangani kesalahan kata sandi salah
+      }
     } catch (e) {
-      //print('Error signIn user: $e');
+      // Tambahkan kode yang sesuai di sini untuk menangani kesalahan umum
     }
 
     return null;
