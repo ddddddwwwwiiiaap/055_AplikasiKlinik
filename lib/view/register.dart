@@ -35,11 +35,12 @@ class _RegisterState extends State<Register> {
         children: [
           const CircularProgressIndicator(),
           Container(
-              margin: const EdgeInsets.only(left: 15),
-              child: const Text(
-                "Loading...",
-                style: TextStyle(fontSize: 12),
-              )),
+            margin: const EdgeInsets.only(left: 15),
+            child: const Text(
+              "Loading...",
+              style: TextStyle(fontSize: 12),
+            ),
+          ),
         ],
       ),
     );
@@ -54,36 +55,39 @@ class _RegisterState extends State<Register> {
 
   signUpDialog() {
     return showDialog(
-        context: context,
-        builder: (_) {
-          return AlertDialog(
-            content: const Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.check_circle,
-                  color: colorPinkText,
-                  size: 72,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Center(child: Text('Register Berhasil')),
-              ],
-            ),
-            actions: [
-              Center(
-                  child: TextButton(
-                      onPressed: () =>
-                          Navigator.popAndPushNamed(context, '/loginPages'),
-                      child: const Text(
-                        'OK',
-                        style: TextStyle(color: colorPinkText),
-                      )))
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.check_circle,
+                color: colorPinkText,
+                size: 72,
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Center(child: Text('Register Berhasil')),
             ],
-          );
-        });
+          ),
+          actions: [
+            Center(
+              child: TextButton(
+                onPressed: () =>
+                    Navigator.popAndPushNamed(context, '/loginPages'),
+                child: const Text(
+                  'OK',
+                  style: TextStyle(color: colorPinkText),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -258,52 +262,53 @@ class _RegisterState extends State<Register> {
   }
 
   Widget buildButtonLogin() {
-  return Container(
-    margin: const EdgeInsets.only(bottom: 24),
-    child: ElevatedButton(
-      onPressed: () async {
-        if (formkey.currentState!.validate()) {
-          UsersModel? registeredUser = await authCtr.registerWithEmailAndPassword(
-            email!,
-            password!,
-            nama!,
-            role = 'pasien',
-          );
-          if (registeredUser != null) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Login(),
-              ),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 24),
+      child: ElevatedButton(
+        onPressed: () async {
+          if (formkey.currentState!.validate()) {
+            UsersModel? registeredUser =
+                await authCtr.registerWithEmailAndPassword(
+              email!,
+              password!,
+              nama!,
+              role = 'pasien',
             );
+            if (registeredUser != null) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Login(),
+                ),
+              );
+            }
           }
-        }
-      },
-      child: Container(
-        width: 120,
-        height: 40,
-        child: Center(
-          child: Text(
-            "Register",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+        },
+        child: Container(
+          width: 120,
+          height: 40,
+          child: Center(
+            child: Text(
+              "Register",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(colorButton),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
             ),
           ),
         ),
       ),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(colorButton),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-        ),
-      ),
-    ),
-  );
-}
+    );
+  }
 }
 
 
