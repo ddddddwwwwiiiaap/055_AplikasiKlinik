@@ -26,8 +26,8 @@ class AuthController {
           email: user.email ?? '',
           role: snapshot['role'] ?? '',
           nomorhp: snapshot['nomorhp'] ?? '',
-          jeniskelamin: snapshot['jeniskelamin'] ?? '',
-          tanggallahir: snapshot['tanggallahir'] ?? '',
+          jekel: snapshot['jekel'] ?? '',
+          tglLahir: snapshot['tglLahir'] ?? '',
           alamat: snapshot['alamat'] ?? '',
         );
 
@@ -57,9 +57,9 @@ class AuthController {
           email: user.email ?? '',
           role: role,
           alamat: '',
-          jeniskelamin: '',
+          jekel: '',
           nomorhp: '',
-          tanggallahir: '',
+          tglLahir: '',
         );
 
         await userCollection.doc(user.uid).set(currentUser.toMap());
@@ -67,7 +67,7 @@ class AuthController {
         return currentUser;
       }
     } catch (e) {
-      //print('Error signin in: $e');
+      print('Error signin in: $e');
     }
     return null;
   }

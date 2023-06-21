@@ -189,7 +189,7 @@ class _LoginState extends State<Login> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
+                  onChanged: (value) {
                     email = value;
                   },
                 ),
@@ -232,7 +232,7 @@ class _LoginState extends State<Login> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
+                  onChanged: (value) {
                     password = value;
                   },
                 ),

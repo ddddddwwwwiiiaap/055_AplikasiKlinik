@@ -1,3 +1,4 @@
+import 'package:aplikasiklinik/view/home_pages.dart';
 import 'package:aplikasiklinik/view/login.dart';
 import 'package:aplikasiklinik/view/register.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.pink,
       ),
-      home: const Login(),
+      home: const HomePages(),
     );
   }
 }
