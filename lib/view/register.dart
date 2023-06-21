@@ -7,7 +7,7 @@ import 'package:aplikasiklinik/view/login.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
-  const Register({super.key});
+  const Register({Key? key});
 
   @override
   State<Register> createState() => _RegisterState();
@@ -105,7 +105,7 @@ class _RegisterState extends State<Register> {
                 buildHeader(),
                 buildIcon(),
                 buildFormLogin(),
-                buildButtonLogin()
+                buildButtonLogin(),
               ],
             ),
           ),
@@ -136,7 +136,7 @@ class _RegisterState extends State<Register> {
                 "assets/image/line.png",
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -160,7 +160,9 @@ class _RegisterState extends State<Register> {
               margin: const EdgeInsets.only(top: 8, bottom: 16),
               padding: const EdgeInsets.only(left: 4, bottom: 4),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12), color: Colors.white),
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+              ),
               child: TextFormField(
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.only(top: 16),
@@ -267,6 +269,7 @@ class _RegisterState extends State<Register> {
       child: ElevatedButton(
         onPressed: () async {
           if (formkey.currentState!.validate()) {
+            showAlertDialogLoading(context);
             UsersModel? registeredUser =
                 await authCtr.registerWithEmailAndPassword(
               email!,
@@ -274,11 +277,29 @@ class _RegisterState extends State<Register> {
               nama!,
               role = 'pasien',
             );
+            Navigator.pop(context); // Close the loading dialog
             if (registeredUser != null) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Login(),
+              signUpDialog();
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const Login(),
+              //   ),
+              // );
+            } else {
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: const Text('Register Gagal'),
+                  content: const Text('Email sudah terdaftar.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
                 ),
               );
             }
@@ -310,6 +331,7 @@ class _RegisterState extends State<Register> {
     );
   }
 }
+
 
 
 
