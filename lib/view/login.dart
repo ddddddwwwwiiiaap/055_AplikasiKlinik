@@ -159,87 +159,87 @@ class _LoginState extends State<Login> {
 
   Widget buildFormLogin() {
     return Form(
-        key: formkey,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 24),
-                padding: const EdgeInsets.only(left: 4, bottom: 4),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white),
-                child: TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 16),
-                    prefixIcon: Icon(Icons.email),
-                    border: InputBorder.none,
-                    hintText: textEmail,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    email = value;
-                  },
+      key: formkey,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 40),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 24),
+              padding: const EdgeInsets.only(left: 4, bottom: 4),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12), color: Colors.white),
+              child: TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                 ),
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.only(top: 16),
+                  prefixIcon: Icon(Icons.email),
+                  border: InputBorder.none,
+                  hintText: textEmail,
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  email = value;
+                },
               ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 40),
-                padding: const EdgeInsets.only(left: 4, bottom: 4),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.white,
-                ),
-                child: TextFormField(
-                  obscureText: _showPassword,
-                  textInputAction: TextInputAction.done,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(top: 16),
-                    prefixIcon: const Icon(Icons.lock),
-                    suffixIcon: GestureDetector(
-                      onTap: togglePasswordVisibility,
-                      child: _showPassword
-                          ? Icon(
-                              Icons.visibility_off,
-                              color: colorPrimary,
-                            )
-                          : Icon(
-                              Icons.visibility,
-                              color: colorPrimary,
-                            ),
-                    ),
-                    border: InputBorder.none,
-                    hintText: 'Password',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    password = value;
-                  },
-                ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(left: 4, bottom: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
               ),
-            ],
-          ),
-        ));
+              child: TextFormField(
+                obscureText: _showPassword,
+                textInputAction: TextInputAction.done,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(top: 16),
+                  prefixIcon: const Icon(Icons.lock),
+                  suffixIcon: GestureDetector(
+                    onTap: togglePasswordVisibility,
+                    child: _showPassword
+                        ? Icon(
+                            Icons.visibility_off,
+                            color: colorPrimary,
+                          )
+                        : Icon(
+                            Icons.visibility,
+                            color: colorPrimary,
+                          ),
+                  ),
+                  border: InputBorder.none,
+                  hintText: 'Password',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  password = value;
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildButtonLogin() {
@@ -326,7 +326,7 @@ class _LoginState extends State<Login> {
 
   Widget buildFooter() {
     return Container(
-      margin: const EdgeInsets.only(top: 24),
+      //margin: const EdgeInsets.only(top: 24),
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [

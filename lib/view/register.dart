@@ -104,8 +104,9 @@ class _RegisterState extends State<Register> {
               children: [
                 buildHeader(),
                 buildIcon(),
-                buildFormLogin(),
-                buildButtonLogin(),
+                buildFormRegister(),
+                buildButtonRegister(),
+                buildFooter(),
               ],
             ),
           ),
@@ -149,7 +150,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget buildFormLogin() {
+  Widget buildFormRegister() {
     return Form(
       key: formkey,
       child: Container(
@@ -263,9 +264,9 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget buildButtonLogin() {
+  Widget buildButtonRegister() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 24),
+      margin: const EdgeInsets.only(top: 24),
       child: ElevatedButton(
         onPressed: () async {
           if (formkey.currentState!.validate()) {
@@ -327,6 +328,32 @@ class _RegisterState extends State<Register> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildFooter() {
+    return Container(
+      //margin: const EdgeInsets.only(top: 24),
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(right: 4),
+            child: Text(
+              textLogin,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.push(
+                context, MaterialPageRoute(builder: (_) => const Login())),
+            child: const Text(
+              titleLogin,
+              style: TextStyle(color: colorButton),
+            ),
+          )
+        ],
       ),
     );
   }

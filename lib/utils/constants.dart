@@ -22,6 +22,7 @@ const String textAmbilAntrian = "Ambil Antrian";
 const String textAntrian = "Antrian";
 const String textWelcome = "Selamat Datang,";
 const String textDaftarRegister = "Belum Mempunyai Akun?";
+const String textLogin = "Sudah Mempunyai Akun?";
 const String textButtonAntrian = "Silahkan Mengambil\nNomor Antrian Anda";
 const String textDeskripsiProfile = "Silahkan Lengkapi Data\nDiri Anda";
 const String textNama = "Nama";
