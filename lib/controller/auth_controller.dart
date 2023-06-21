@@ -22,7 +22,7 @@ class AuthController {
 
         final UsersModel currentUser = UsersModel(
           uId: user.uid,
-          nama: snapshot['name'] ?? '',
+          nama: snapshot['nama'] ?? '',
           email: user.email ?? '',
           role: snapshot['role'] ?? '',
           nomorhp: snapshot['nomorhp'] ?? '',

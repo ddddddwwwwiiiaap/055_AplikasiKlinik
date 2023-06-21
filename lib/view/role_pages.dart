@@ -21,7 +21,6 @@ class _RolesPagesState extends State<RolesPages> {
   String? jekel;
   String? tglLahir;
   String? alamat;
-  String? poli;
 
   Future<dynamic> getUser() async {
     await FirebaseFirestore.instance
@@ -38,7 +37,6 @@ class _RolesPagesState extends State<RolesPages> {
           nomorHp = result.docs[0].data()['nomor hp'];
           tglLahir = result.docs[0].data()['tanggal lahir'];
           alamat = result.docs[0].data()['alamat'];
-          poli = result.docs[0].data()['poli'];
         });
       }
     });
