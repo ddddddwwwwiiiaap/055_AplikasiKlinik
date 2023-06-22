@@ -1,6 +1,8 @@
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
+import 'package:aplikasiklinik/view/admin/add_poli.dart';
 import 'package:aplikasiklinik/view/admin/home_pages_d.dart';
+import 'package:aplikasiklinik/view/admin/poli.dart';
 import 'package:aplikasiklinik/view/home_pages.dart';
 import 'package:aplikasiklinik/view/login.dart';
 import 'package:aplikasiklinik/view/next_pages.dart';
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         // '/daftarAntrianPagesDokter': (_) => DaftarAntrianPagesDokter(),
         // '/riwayatPasienMasuk': (_) => RiwayatPasienMasuk()
       },
-      home: const NextPages() 
+      home: const Poli() 
     );
   }
 }
