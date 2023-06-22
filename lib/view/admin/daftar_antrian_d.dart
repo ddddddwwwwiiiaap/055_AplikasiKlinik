@@ -6,15 +6,15 @@ import 'package:intl/intl.dart';
 
 import '../../themes/custom_colors.dart';
 
-class DaftarAntrianPagesDokter extends StatefulWidget {
-  const DaftarAntrianPagesDokter({super.key});
+class DaftarAntrianPagesAdmin extends StatefulWidget {
+  const DaftarAntrianPagesAdmin({super.key});
 
   @override
-  State<DaftarAntrianPagesDokter> createState() =>
-      _DaftarAntrianPagesDokterState();
+  State<DaftarAntrianPagesAdmin> createState() =>
+      _DaftarAntrianPagesAdminState();
 }
 
-class _DaftarAntrianPagesDokterState extends State<DaftarAntrianPagesDokter> {
+class _DaftarAntrianPagesAdminState extends State<DaftarAntrianPagesAdmin> {
   final Stream<QuerySnapshot> _streamAntrianPasien =
       FirebaseFirestore.instance.collection("antrian pasien").snapshots();
 

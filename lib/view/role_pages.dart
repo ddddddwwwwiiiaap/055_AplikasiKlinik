@@ -1,5 +1,5 @@
 import 'package:aplikasiklinik/controller/auth_controller.dart';
-import 'package:aplikasiklinik/view/dokter/home_pages_d.dart';
+import 'package:aplikasiklinik/view/admin/home_pages_d.dart';
 import 'package:aplikasiklinik/view/home_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,8 +43,8 @@ class _RolesPagesState extends State<RolesPages> {
 
           if (role.toString() == "pasien") {
             return const HomePages();
-          } else if (role.toString() == "dokter") {
-            return const HomePagesDokter();
+          } else if (role.toString() == "admin") {
+            return const HomePagesAdmin();
           }
 
           return const Scaffold(

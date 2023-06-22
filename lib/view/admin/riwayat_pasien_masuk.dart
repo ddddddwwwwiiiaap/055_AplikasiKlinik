@@ -89,7 +89,7 @@ class _RiwayatPasienMasukState extends State<RiwayatPasienMasuk> {
                                 ],
                               ),
                             ),
-                             Padding(
+                            Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),
                               child: Row(
                                 mainAxisAlignment:

@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 import '../../themes/custom_colors.dart';
 
-class ProfilePagesDokter extends StatefulWidget {
+class ProfilePagesAdmin extends StatefulWidget {
   String? uid;
   String? nama;
   String? email;
@@ -15,9 +15,9 @@ class ProfilePagesDokter extends StatefulWidget {
   String? nomorHp;
   String? jekel;
   String? tglLahir;
-  String? alamat; 
+  String? alamat;
   final bool isEdit;
-  ProfilePagesDokter(
+  ProfilePagesAdmin(
       {Key? key,
       this.uid,
       this.nama,
@@ -31,10 +31,10 @@ class ProfilePagesDokter extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ProfilePagesDokter> createState() => _ProfilePagesDokterState();
+  State<ProfilePagesAdmin> createState() => _ProfilePagesAdminState();
 }
 
-class _ProfilePagesDokterState extends State<ProfilePagesDokter> {
+class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nama = TextEditingController();
   final TextEditingController _email = TextEditingController();
@@ -116,8 +116,12 @@ class _ProfilePagesDokterState extends State<ProfilePagesDokter> {
             ),
             actions: [
               TextButton(
-                  onPressed: () => Navigator.pushNamed(context, '/homePagesDokter'),
-                  child: Text("OK", style: TextStyle(color: colorPinkText),))
+                  onPressed: () =>
+                      Navigator.pushNamed(context, '/homePagesAdmin'),
+                  child: Text(
+                    "OK",
+                    style: TextStyle(color: colorPinkText),
+                  ))
             ],
           );
         });
@@ -135,7 +139,11 @@ class _ProfilePagesDokterState extends State<ProfilePagesDokter> {
         height: size.height,
         child: SingleChildScrollView(
           child: Column(
-            children: [buildHeader(size), buildFormProfile(size), buildButtonSave()],
+            children: [
+              buildHeader(size),
+              buildFormProfile(size),
+              buildButtonSave()
+            ],
           ),
         ),
       ),
@@ -150,7 +158,10 @@ class _ProfilePagesDokterState extends State<ProfilePagesDokter> {
           Container(
               child: Stack(
             children: [
-              Image.asset("assets/ellipse/ellipse1.png", width: size.width/1.8,),
+              Image.asset(
+                "assets/ellipse/ellipse1.png",
+                width: size.width / 1.8,
+              ),
               Positioned.fill(
                   left: 0,
                   top: 36,
@@ -169,7 +180,7 @@ class _ProfilePagesDokterState extends State<ProfilePagesDokter> {
     );
   }
 
-   Widget buildFormProfile(Size size) {
+  Widget buildFormProfile(Size size) {
     return Form(
         key: _formKey,
         child: Column(
@@ -184,9 +195,9 @@ class _ProfilePagesDokterState extends State<ProfilePagesDokter> {
                 controller: _nama,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                decoration: const InputDecoration(
-                  labelText: textNama),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                decoration: const InputDecoration(labelText: textNama),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Masukkan $textNama';
@@ -339,21 +350,22 @@ class _ProfilePagesDokterState extends State<ProfilePagesDokter> {
 
   Widget buildButtonSave() {
     return ElevatedButton(
-        onPressed: updateData,
-        style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(colorButton),
-            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24)))),
-        child: Container(
-            width: 120,
-            height: 40,
-            child: Center(
-                child: Text(
-              textButtonSave,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16),
-            ))));
+      onPressed: updateData,
+      style: ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll(colorButton),
+          shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)))),
+      child: Container(
+        width: 120,
+        height: 40,
+        child: Center(
+          child: Text(
+            textButtonSave,
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+        ),
+      ),
+    );
   }
 }
