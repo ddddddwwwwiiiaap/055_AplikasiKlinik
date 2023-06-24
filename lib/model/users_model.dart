@@ -37,7 +37,7 @@ class UsersModel {
       'jekel': jekel,
       'tglLahir': tglLahir,
       'alamat': alamat,
-      'noAntrian': noAntrian,
+      'noantrian': noAntrian,
       'poli': poli,
     };
   }
@@ -52,7 +52,7 @@ class UsersModel {
       jekel: map['jekel'] as String,
       tglLahir: map['tglLahir'] as String,
       alamat: map['alamat'] as String,
-      noAntrian: map['noAntrian'] != null ? map['noAntrian'] as int : null,
+      noAntrian: map['noantrian'] != null ? map['noantrian'] as int : null,
       poli: map['poli'] as String,
     );
   }

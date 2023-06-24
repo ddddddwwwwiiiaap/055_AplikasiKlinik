@@ -66,12 +66,4 @@ class HomePagesPasienController {
   //   );
   // }
 
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-    // Navigator.pushNamedAndRemoveUntil(
-    //   context,
-    //   MaterialPageRoute(
-    //       builder: ((context) => const Login()), (route) => false),
-    // );
-  }
 }

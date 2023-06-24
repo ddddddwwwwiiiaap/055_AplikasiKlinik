@@ -3,7 +3,9 @@ import 'package:aplikasiklinik/controller/homepagespasien_controller.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
+import 'package:aplikasiklinik/view/antrian.dart';
 import 'package:aplikasiklinik/view/jadwal_pemeriksaan.dart';
+import 'package:aplikasiklinik/view/login.dart';
 import 'package:aplikasiklinik/view/pendaftaran.dart';
 import 'package:aplikasiklinik/view/profile_pages.dart';
 import 'package:aplikasiklinik/view/riwayat_pemeriksaan.dart';
@@ -21,7 +23,7 @@ class HomePages extends StatefulWidget {
 class _HomePagesState extends State<HomePages> {
   var hppc = HomePagesPasienController();
   var auth = AuthController();
-  
+
   String? uId;
   String? nama;
   String? email;
@@ -45,13 +47,10 @@ class _HomePagesState extends State<HomePages> {
         context: context,
         builder: (_) {
           return AlertDialog(
-            title: Text(titleLogout),
-            content: Text(contentLogout),
+            title: const Text(titleLogout),
+            content: const Text(contentLogout),
             actions: [
-              //mengambil data signOut dari controller
-              TextButton(
-                  onPressed: () => hppc.signOut(),
-                  child: Text(textYa.toUpperCase())),
+              TextButton(onPressed: signOut, child: Text(textYa.toUpperCase())),
               TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: Text(textTidak.toUpperCase()))
@@ -77,13 +76,21 @@ class _HomePagesState extends State<HomePages> {
               nomorhp = result.docs[0].data()['nomorhp'];
               tglLahir = result.docs[0].data()['tGLlahir'];
               alamat = result.docs[0].data()['alamat'];
-              //_noAntrian = result.docs[0].data()['noantrian'];
-              //_poli = result.docs[0].data()['poli'];
+              noAntrian = result.docs[0].data()['noantrian'];
+              poli = result.docs[0].data()['poli'];
             },
           );
         }
       },
     );
+  }
+
+    Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Login()),
+        (route) => false);
   }
 
   @override
@@ -94,12 +101,11 @@ class _HomePagesState extends State<HomePages> {
         title: const Text(titleHome),
         actions: [
           IconButton(
-            onPressed: showDialogExitToApp,
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.white,
-            ),
-          ),
+              onPressed: showDialogExitToApp,
+              icon: const Icon(
+                Icons.exit_to_app,
+                color: Colors.white,
+              ))
         ],
       ),
       drawer: homeDrawer(),
@@ -112,11 +118,15 @@ class _HomePagesState extends State<HomePages> {
             buildHeader(size),
             buildTitleHeader(),
             buildIconHome(),
+            noAntrian == 0
+                ? buildButtonAmbilNoAntrian()
+                : buildButtonLihatAntrian(size)
           ],
         ),
       ),
     );
   }
+
   Widget homeDrawer() {
     return Drawer(
       child: ListView(
@@ -129,26 +139,27 @@ class _HomePagesState extends State<HomePages> {
                     leading: Image.asset("assets/image/profil.png"),
                     title: Text(
                       "$nama",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
                       "No. Akun : ${uId?.substring(20, 27)}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                     ),
                   ),
                 ),
               )),
-              ListTile(
-                //jika di klik akan menuju ke halaman homepages
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => HomePages())),
+          ListTile(
+            //jika di klik akan menuju ke halaman homepages
+            onTap: () => Navigator.push(
+                context, MaterialPageRoute(builder: (_) => const HomePages())),
             leading: Image.asset(
               "assets/icon/icon_home.png",
               width: 24,
             ),
-            title: Text(
+            title: const Text(
               titleHome,
             ),
           ),
@@ -156,21 +167,21 @@ class _HomePagesState extends State<HomePages> {
             onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => ProfilePages(
-                    uid: uId.toString(),
-                    nama: nama.toString(),
-                    email: email.toString(),
-                    role: role.toString(),
-                    nomorHp: nomorhp.toString(),
-                    jekel: jekel.toString(),
-                    tglLahir: tglLahir.toString(),
-                    alamat: alamat.toString(),
-                    isEdit: true))),
-                    leading: Image.asset(
+                    builder: (_) => ProfilePages(
+                        uid: uId.toString(),
+                        nama: nama.toString(),
+                        email: email.toString(),
+                        role: role.toString(),
+                        nomorHp: nomorhp.toString(),
+                        jekel: jekel.toString(),
+                        tglLahir: tglLahir.toString(),
+                        alamat: alamat.toString(),
+                        isEdit: true))),
+            leading: Image.asset(
               "assets/icon/icon_profile.png",
               width: 24,
             ),
-            title: Text(
+            title: const Text(
               titleProfile,
             ),
           ),
@@ -178,15 +189,15 @@ class _HomePagesState extends State<HomePages> {
             onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => Pendaftaran(
-                    uId: uId.toString(),
-                    nama: nama.toString(),
-                  ))),
-                  leading: Image.asset(
+                    builder: (_) => Pendaftaran(
+                          uId: uId.toString(),
+                          nama: nama.toString(),
+                        ))),
+            leading: Image.asset(
               "assets/icon/icon_daftar_antrian.png",
               width: 24,
             ),
-            title: Text(
+            title: const Text(
               titleDaftarAntrian,
             ),
           ),
@@ -195,24 +206,27 @@ class _HomePagesState extends State<HomePages> {
                 context,
                 MaterialPageRoute(
                     builder: (_) =>
-                    JadwalPemeriksaanPages(uid: uId.toString()))),
-                    leading: Image.asset(
+                        JadwalPemeriksaanPages(uid: uId.toString()))),
+            leading: Image.asset(
               "assets/icon/icon_jadwal_periksa.png",
               width: 24,
             ),
-            title: Text(
+            title: const Text(
               titleJadwalPemeriksaan,
             ),
           ),
           ListTile(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RiwayatPemeriksaanPages(
-              uid: uId.toString(),
-            ))),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => RiwayatPemeriksaanPages(
+                          uid: uId.toString(),
+                        ))),
             leading: Image.asset(
               "assets/icon/icon_history.png",
               width: 24,
             ),
-            title: Text(
+            title: const Text(
               titleRiwayatPemeriksaan,
             ),
           ),
@@ -229,7 +243,7 @@ class _HomePagesState extends State<HomePages> {
     );
   }
 
-Widget buildTitleHeader() {
+  Widget buildTitleHeader() {
     return Positioned.fill(
         top: 40,
         left: 40,
@@ -238,8 +252,8 @@ Widget buildTitleHeader() {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 24),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 24),
               child: Text(
                 textWelcome,
                 style: TextStyle(
@@ -250,7 +264,7 @@ Widget buildTitleHeader() {
             ),
             Text(
               "Semoga Lekas Sembuh\n$nama",
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 24),
@@ -276,39 +290,39 @@ Widget buildTitleHeader() {
                 child: Image.asset("assets/image/home_doctor.png"))));
   }
 
-  // Widget buildButtonAmbilNoAntrian() {
-  //   return Positioned(
-  //     child: Align(
-  //       alignment: Alignment.bottomCenter,
-  //       child: Container(
-  //         margin: const EdgeInsets.only(bottom: 90),
-  //         child: ElevatedButton(
-  //             onPressed: () => Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                     // builder: (_) => DaftarAntrianPages(
-  //                     //   uid: uId.toString(),
-  //                     //   nama: nama.toString(),
-  //                     )),
-  //                     style: ButtonStyle(
-  //                 backgroundColor: MaterialStatePropertyAll(colorButtonHome),
-  //                 shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-  //                     borderRadius: BorderRadius.circular(24)))),
-  //             child: Padding(
-  //               padding:
-  //                   const EdgeInsets.symmetric(vertical: 8, horizontal: 40),
-  //               child: Text(
-  //                 textButtonAntrian,
-  //                 style: TextStyle(
-  //                   color: colorPrimary,
-  //                   fontWeight: FontWeight.bold,
-  //                 ),
-  //               ),
-  //             )),
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget buildButtonAmbilNoAntrian() {
+    return Positioned(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 90),
+          child: ElevatedButton(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => Pendaftaran(
+                            uId: uId.toString(),
+                            nama: nama.toString(),
+                          ))),
+              style: ButtonStyle(
+                  backgroundColor: const MaterialStatePropertyAll(colorButtonHome),
+                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)))),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 40),
+                child: Text(
+                  textButtonAntrian,
+                  style: TextStyle(
+                    color: colorPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )),
+        ),
+      ),
+    );
+  }
 
   Widget buildButtonLihatAntrian(Size size) {
     return Positioned(
@@ -329,7 +343,7 @@ Widget buildTitleHeader() {
             Container(
                 width: size.width / 1.4,
                 margin: const EdgeInsets.only(bottom: 160),
-                child: Row(
+                child: const Row(
                   children: [
                     Text(
                       titleNoAntrian,
@@ -344,37 +358,37 @@ Widget buildTitleHeader() {
                 child: Row(
                   children: [
                     Text(
-                      "A-001",
+                      noAntrian == null ? "" : "$noAntrian",
                       style:
-                          TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                     ),
                   ],
                 )),
-            // Container(
-            //   margin: const EdgeInsets.only(top: 120),
-            //   child: ElevatedButton(
-            //       onPressed: () => Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (_) => AntrianPages(
-            //                 noAntrian: "A-001", poli: poli))),
-            //                 style: ButtonStyle(
-            //           backgroundColor:
-            //               MaterialStatePropertyAll(colorButtonHome),
-            //           shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.circular(24)))),
-            //       child: Padding(
-            //         padding:
-            //             const EdgeInsets.symmetric(vertical: 8, horizontal: 40),
-            //         child: Text(
-            //           textButtonLihatAntrian,
-            //           style: TextStyle(
-            //             color: colorPrimary,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //         ),
-            //       )),
-            // ),
+            Container(
+              margin: const EdgeInsets.only(top: 120),
+              child: ElevatedButton(
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => AntrianPages(
+                              noAntrian: noAntrian, poli: poli))),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          const MaterialStatePropertyAll(colorButtonHome),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24)))),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 40),
+                    child: Text(
+                      textButtonLihatAntrian,
+                      style: TextStyle(
+                        color: colorPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )),
+            ),
           ],
         ),
       ),

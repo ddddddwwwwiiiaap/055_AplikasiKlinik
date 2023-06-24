@@ -107,7 +107,7 @@ class _PendaftaranState extends State<Pendaftaran> {
           'poli': namaPoli.toString(),
           'tanggal antrian': tanggalantrian.text,
           'waktu antrian': waktuantrian.text,
-          'no antrian': docUserAntrianCount.length + 1
+          'noantrian': docUserAntrianCount.length + 1
         });
 
         QuerySnapshot docAntrianPasien =
@@ -124,7 +124,7 @@ class _PendaftaranState extends State<Pendaftaran> {
           'poli': namaPoli.toString(),
           'tanggal antrian': tanggalantrian.text,
           'waktu antrian': waktuantrian.text,
-          'no antrian': docAntrianPasienCount.length + 1,
+          'noantrian': docAntrianPasienCount.length + 1,
           'status': 'Menunggu'
         });
         updateDataUsers();
@@ -146,7 +146,7 @@ class _PendaftaranState extends State<Pendaftaran> {
 
       if (documentSnapshot.exists) {
         transaction.update(documentReference, <String, dynamic>{
-          'no antrian': FieldValue.increment(1),
+          'noantrian': FieldValue.increment(1),
           'poli': namaPoli.toString()
         });
       }

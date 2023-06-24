@@ -104,7 +104,7 @@ class _DaftarAntrianPagesAdminState extends State<DaftarAntrianPagesAdmin> {
         });
   }
 
-  Future<dynamic> createRiwayatPasienMasuk(docId, namaPasien, noAntrian, poli,
+  Future<dynamic> createRiwayatPasienMasuk(uId, namaPasien, noAntrian, poli,
       status, tglAntrian, uidPasien, waktuAntrian) async {
     String timeNow = DateFormat.jm().format(dtNow);
     try {
@@ -112,16 +112,16 @@ class _DaftarAntrianPagesAdminState extends State<DaftarAntrianPagesAdmin> {
 
       await FirebaseFirestore.instance
           .collection('riwayat pasien masuk')
-          .doc(docId)
+          .doc(uId)
           .set({
-        'doc id': docId.toString(),
+        'doc id': uId.toString(),
         'uid pasien': uidPasien.toString(),
         'nama pasien': namaPasien.toString(),
         'poli': poli.toString(),
         'tanggal antrian': tglAntrian.toString(),
         'waktu antrian': waktuAntrian.toString(),
         'selesai antrian': timeNow,
-        'no antrian': noAntrian,
+        'noantrian': noAntrian,
         'status': _selectedStatusAntrian.toString()
       });
     } catch (e) {
@@ -139,7 +139,7 @@ class _DaftarAntrianPagesAdminState extends State<DaftarAntrianPagesAdmin> {
 
       if (documentSnapshot.exists) {
         transaction.update(documentReference, <String, dynamic>{
-          'no antrian': noAntrian,
+          'noantrian': noAntrian,
         });
       }
     });
@@ -208,7 +208,7 @@ class _DaftarAntrianPagesAdminState extends State<DaftarAntrianPagesAdmin> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   child: Container(
-                      padding: const EdgeInsets.all(8),
+                       padding: const EdgeInsets.all(8),
                       child: ListTile(
                         title: Text(
                             "${data['uid pasien']}"
@@ -229,7 +229,7 @@ class _DaftarAntrianPagesAdminState extends State<DaftarAntrianPagesAdmin> {
                                 children: [
                                   Text("No. Antrian"),
                                   Text(
-                                    "${data['no antrian']}",
+                                    "${data['noantrian']}",
                                     style: TextStyle(
                                         color: colorPinkText,
                                         fontWeight: FontWeight.bold),
@@ -281,7 +281,7 @@ class _DaftarAntrianPagesAdminState extends State<DaftarAntrianPagesAdmin> {
                                     onTap: () => showEditStatus(
                                       data['doc id'],
                                       data['nama pasien'],
-                                      data['no antrian'],
+                                      data['noantrian'],
                                       data['poli'],
                                       data['status'],
                                       data['tanggal antrian'],

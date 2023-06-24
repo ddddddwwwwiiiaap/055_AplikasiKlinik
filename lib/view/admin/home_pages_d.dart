@@ -171,6 +171,18 @@ class _HomePagesAdminState extends State<HomePagesAdmin> {
               titleProfile,
             ),
           ),
+          //poli
+          ListTile( 
+            onTap: () => 
+                Navigator.pushNamed(context, '/poliPagesAdmin'),
+            leading: Image.asset(
+              "assets/icon/icon_daftar_antrian.png",
+              width: 24,
+            ),
+            title: const Text(
+              titlePoli,
+            ),
+          ),
           ListTile(
             onTap: () =>
                 Navigator.pushNamed(context, '/daftarAntrianPagesAdmin'),

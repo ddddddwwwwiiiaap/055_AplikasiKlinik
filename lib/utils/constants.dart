@@ -4,6 +4,7 @@ const String titleLogin = "Login";
 const String titleRegister = "Register";
 const String titleSignUp = "Sign Up";
 const String titleHome = "Home";
+const String titlePoli = "Poli";
 const String titleProfile = "Profile";
 const String titleJadwalPemeriksaan = "Jadwal Pemeriksaan";
 const String titleRiwayatPemeriksaan = "Riwayat Pemeriksaan";
@@ -19,6 +20,7 @@ const String titleSuccess = "Berhasil";
 
 const String textNext = "Next";
 const String textAmbilAntrian = "Ambil Antrian";
+const String textAddPoli = "Add Poli";
 const String textAntrian = "Antrian";
 const String textWelcome = "Selamat Datang,";
 const String textDaftarRegister = "Belum Mempunyai Akun?";
