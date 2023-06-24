@@ -29,98 +29,7 @@ class _LoginState extends State<Login> {
       _showPassword = !_showPassword;
     });
   }
-
-  Future<dynamic> login() async {
-    if (formkey.currentState!.validate()) {
-      showAlertDialogLoading(context);
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email!, password: password!);
-
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const RolesPages()),
-            (route) => false);
-            
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          Navigator.pop(context);
-          showAlertUserNotFound();
-        } else if (e.code == 'wrong-password') {
-          Navigator.pop(context);
-          showAlertUserWrongPassword();
-        }
-      }
-    }
-  }
-
-  showAlertUserNotFound() {
-    AlertDialog alert = AlertDialog(
-      title: const Text(titleError),
-      content: const Text("Maaf, User Tidak Ditemukan!"),
-      actions: [
-        TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              "OK",
-              style: TextStyle(color: colorPinkText),
-            ))
-      ],
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  showAlertUserWrongPassword() {
-    AlertDialog alert = AlertDialog(
-      title: const Text(titleError),
-      content: const Text("Maaf, Password Salah!"),
-      actions: [
-        TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              "OK",
-              style: TextStyle(color: colorPinkText),
-            ))
-      ],
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  showAlertDialogLoading(BuildContext context) {
-    AlertDialog alert = AlertDialog(
-      content: Row(
-        children: [
-          const CircularProgressIndicator(),
-          Container(
-              margin: const EdgeInsets.only(left: 15),
-              child: const Text(
-                "Loading...",
-                style: TextStyle(fontSize: 12),
-              )),
-        ],
-      ),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
+  
   displaySnackBar(text) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
@@ -270,7 +179,11 @@ class _LoginState extends State<Login> {
 
   Widget buildButtonLogin() {
     return ElevatedButton(
-        onPressed: login,
+        onPressed: (){
+          if (formkey.currentState!.validate()) {
+            authCtr.login(email!, password! , context);
+          }
+        },
         style: ButtonStyle(
             backgroundColor: const MaterialStatePropertyAll(colorButton),
             shape: MaterialStatePropertyAll(RoundedRectangleBorder(
