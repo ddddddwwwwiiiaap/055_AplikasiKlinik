@@ -29,6 +29,8 @@ class AuthController {
           jekel: snapshot['jekel'] ?? '',
           tglLahir: snapshot['tglLahir'] ?? '',
           alamat: snapshot['alamat'] ?? '',
+          noAntrian: snapshot['noAntrian'] ?? '',
+          poli: snapshot['poli'] ?? '',
         );
 
         return currentUser;
@@ -66,6 +68,8 @@ class AuthController {
           jekel: '',
           nomorhp: '',
           tglLahir: '',
+          noAntrian: 0,
+          poli: '',
         );
 
         await userCollection.doc(user.uid).set(currentUser.toMap());
@@ -81,7 +85,7 @@ class AuthController {
   UsersModel? getCurrentUser() {
     final User? user = auth.currentUser;
     if (user != null) {
-      return UsersModel.fromFirebase(user);
+      return UsersModel.fromSnapshot(user);
     }
     return null;
   }
@@ -109,6 +113,8 @@ class AuthController {
           jekel: result.docs[0].data()['jekel'],
           tglLahir: result.docs[0].data()['tglLahir'],
           alamat: result.docs[0].data()['alamat'],
+          noAntrian: result.docs[0].data()['noAntrian'],
+          poli: result.docs[0].data()['poli'],
         );
       }
     });

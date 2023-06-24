@@ -6,6 +6,7 @@ import 'package:aplikasiklinik/view/admin/poli.dart';
 import 'package:aplikasiklinik/view/home_pages.dart';
 import 'package:aplikasiklinik/view/login.dart';
 import 'package:aplikasiklinik/view/next_pages.dart';
+import 'package:aplikasiklinik/view/pendaftaran.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         // '/daftarAntrianPagesDokter': (_) => DaftarAntrianPagesDokter(),
         // '/riwayatPasienMasuk': (_) => RiwayatPasienMasuk()
       },
-      home: const Poli() 
+      home: Login() 
     );
   }
 }

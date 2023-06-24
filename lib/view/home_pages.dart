@@ -1,8 +1,12 @@
+import 'package:aplikasiklinik/controller/auth_controller.dart';
 import 'package:aplikasiklinik/controller/homepagespasien_controller.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
+import 'package:aplikasiklinik/view/jadwal_pemeriksaan.dart';
+import 'package:aplikasiklinik/view/pendaftaran.dart';
 import 'package:aplikasiklinik/view/profile_pages.dart';
+import 'package:aplikasiklinik/view/riwayat_pemeriksaan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,15 +20,18 @@ class HomePages extends StatefulWidget {
 
 class _HomePagesState extends State<HomePages> {
   var hppc = HomePagesPasienController();
+  var auth = AuthController();
   
   String? uId;
   String? nama;
   String? email;
   String? role;
-  String? nomorHp;
+  String? nomorhp;
   String? jekel;
   String? tglLahir;
   String? alamat;
+  int? noAntrian;
+  String? poli;
 
   @override
   void initState() {
@@ -56,21 +63,27 @@ class _HomePagesState extends State<HomePages> {
   Future<dynamic> getUser() async {
     await FirebaseFirestore.instance
         .collection('users')
-        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('uId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
-        .then((result) {
-      if (result.docs.isNotEmpty) {
-        setState(() {
-          uId = result.docs[0].data()['uid'];
-          nama = result.docs[0].data()['nama'];
-          email = result.docs[0].data()['email'];
-          role = result.docs[0].data()['role'];
-          nomorHp = result.docs[0].data()['nomor hp'];
-          tglLahir = result.docs[0].data()['tanggal lahir'];
-          alamat = result.docs[0].data()['alamat'];
-        });
-      }
-    });
+        .then(
+      (result) {
+        if (result.docs.isNotEmpty) {
+          setState(
+            () {
+              uId = result.docs[0].data()['uId'];
+              nama = result.docs[0].data()['nama'];
+              email = result.docs[0].data()['email'];
+              role = result.docs[0].data()['role'];
+              nomorhp = result.docs[0].data()['nomorhp'];
+              tglLahir = result.docs[0].data()['tGLlahir'];
+              alamat = result.docs[0].data()['alamat'];
+              //_noAntrian = result.docs[0].data()['noantrian'];
+              //_poli = result.docs[0].data()['poli'];
+            },
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -148,7 +161,7 @@ class _HomePagesState extends State<HomePages> {
                     nama: nama.toString(),
                     email: email.toString(),
                     role: role.toString(),
-                    nomorHp: nomorHp.toString(),
+                    nomorHp: nomorhp.toString(),
                     jekel: jekel.toString(),
                     tglLahir: tglLahir.toString(),
                     alamat: alamat.toString(),
@@ -161,48 +174,48 @@ class _HomePagesState extends State<HomePages> {
               titleProfile,
             ),
           ),
-          // ListTile(
-          //   onTap: () => Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (_) => DaftarAntrianPages(
-          //           uid: uId.toString(),
-          //           nama: nama.toString(),
-          //         ))),
-          //         leading: Image.asset(
-          //     "assets/icon/icon_daftar_antrian.png",
-          //     width: 24,
-          //   ),
-          //   title: Text(
-          //     titleDaftarAntrian,
-          //   ),
-          // ),
-          // ListTile(
-          //   onTap: () => Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //           builder: (_) =>
-          //           JadwalPemeriksaanPages(uid: uId.toString()))),
-          //           leading: Image.asset(
-          //     "assets/icon/icon_jadwal_periksa.png",
-          //     width: 24,
-          //   ),
-          //   title: Text(
-          //     titleJadwalPemeriksaan,
-          //   ),
-          // ),
-          // ListTile(
-          //   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RiwayatPemeriksaanPages(
-          //     uid: uId.toString(),
-          //   ))),
-          //   leading: Image.asset(
-          //     "assets/icon/icon_history.png",
-          //     width: 24,
-          //   ),
-          //   title: Text(
-          //     titleRiwayatPemeriksaan,
-          //   ),
-          // ),
+          ListTile(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => Pendaftaran(
+                    uId: uId.toString(),
+                    nama: nama.toString(),
+                  ))),
+                  leading: Image.asset(
+              "assets/icon/icon_daftar_antrian.png",
+              width: 24,
+            ),
+            title: Text(
+              titleDaftarAntrian,
+            ),
+          ),
+          ListTile(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) =>
+                    JadwalPemeriksaanPages(uid: uId.toString()))),
+                    leading: Image.asset(
+              "assets/icon/icon_jadwal_periksa.png",
+              width: 24,
+            ),
+            title: Text(
+              titleJadwalPemeriksaan,
+            ),
+          ),
+          ListTile(
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RiwayatPemeriksaanPages(
+              uid: uId.toString(),
+            ))),
+            leading: Image.asset(
+              "assets/icon/icon_history.png",
+              width: 24,
+            ),
+            title: Text(
+              titleRiwayatPemeriksaan,
+            ),
+          ),
         ],
       ),
     );

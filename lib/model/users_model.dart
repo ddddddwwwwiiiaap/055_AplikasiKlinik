@@ -12,6 +12,8 @@ class UsersModel {
   String jekel;
   String tglLahir;
   String alamat;
+  int? noAntrian;
+  String poli;
   UsersModel({
     this.uId,
     required this.nama,
@@ -21,6 +23,8 @@ class UsersModel {
     required this.jekel,
     required this.tglLahir,
     required this.alamat,
+    this.noAntrian,
+    required this.poli,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,6 +37,8 @@ class UsersModel {
       'jekel': jekel,
       'tglLahir': tglLahir,
       'alamat': alamat,
+      'noAntrian': noAntrian,
+      'poli': poli,
     };
   }
 
@@ -46,6 +52,8 @@ class UsersModel {
       jekel: map['jekel'] as String,
       tglLahir: map['tglLahir'] as String,
       alamat: map['alamat'] as String,
+      noAntrian: map['noAntrian'] != null ? map['noAntrian'] as int : null,
+      poli: map['poli'] as String,
     );
   }
 
@@ -53,5 +61,5 @@ class UsersModel {
 
   factory UsersModel.fromJson(String source) => UsersModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  static UsersModel? fromFirebase(User user) {}
+  static UsersModel? fromSnapshot(User user) {}
 }

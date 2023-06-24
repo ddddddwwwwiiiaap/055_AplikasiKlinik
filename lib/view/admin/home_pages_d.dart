@@ -26,8 +26,8 @@ class _HomePagesAdminState extends State<HomePagesAdmin> {
   String? jekel;
   String? tglLahir;
   String? alamat;
-  int? _noAntrian;
-  String? _poli;
+  int? noAntrian;
+  String? poli;
 
   Future<dynamic> getUser() async {
     await FirebaseFirestore.instance

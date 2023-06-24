@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:aplikasiklinik/model/poli_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/material/dropdown.dart';
 
 class PoliController {
   final poliCollection = FirebaseFirestore.instance.collection('poli');
@@ -42,4 +44,23 @@ class PoliController {
     await getPoli();
     print('Delete poli with ID: $uId');
   }
+
+  Future<List<DropdownMenuItem<String>>> getPoliList() async {
+    QuerySnapshot snapshot = await poliCollection.get();
+    List<DropdownMenuItem<String>> poliItems = [];
+    for (int i = 0; i < snapshot.docs.length; i++) {
+      DocumentSnapshot snap = snapshot.docs[i];
+      poliItems.add(
+        DropdownMenuItem(
+          child: Text(
+            snap.get('namaPoli'),
+            style: TextStyle(color: Colors.black),
+          ),
+          value: "${snap.get('namaPoli')}",
+        ),
+      );
+    }
+    return poliItems;
+  }
+
 }
