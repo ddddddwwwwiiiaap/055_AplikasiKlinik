@@ -18,7 +18,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final formkey = GlobalKey<FormState>();
-  final authCtr = AuthController();
+  final authCtr = AuthController(isEdit: false);
   String? email;
   String? password;
 

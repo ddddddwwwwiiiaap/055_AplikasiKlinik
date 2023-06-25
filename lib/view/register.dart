@@ -15,7 +15,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final formkey = GlobalKey<FormState>();
-  final authCtr = AuthController();
+  final authCtr = AuthController(isEdit: false);
   String? nama;
   String? email;
   String? password;

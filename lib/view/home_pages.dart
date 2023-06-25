@@ -22,7 +22,7 @@ class HomePages extends StatefulWidget {
 
 class _HomePagesState extends State<HomePages> {
   var hppc = HomePagesPasienController();
-  var auth = AuthController();
+  var auth = AuthController(isEdit: false);
 
   String? uId;
   String? nama;

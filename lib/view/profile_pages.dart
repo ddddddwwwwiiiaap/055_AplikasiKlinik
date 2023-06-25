@@ -34,15 +34,23 @@ class ProfilePages extends StatefulWidget {
 }
 
 class _ProfilePagesState extends State<ProfilePages> {
-  var auth = AuthController();
+  var auth = AuthController(isEdit: true);
 
   final _formKey = GlobalKey<FormState>();
-  String? nama; 
+    String? uId;
+  String? nama;
   String? email;
-  String? role; 
+  String? role;
   String? nomorHp;
   String? tglLahir;
-  String? alamat;
+  String? alamat; 
+
+  final TextEditingController _nama = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _role = TextEditingController();
+  final TextEditingController _nomorHp = TextEditingController();
+  final TextEditingController _tglLahir = TextEditingController();
+  final TextEditingController _alamat = TextEditingController();
 
   String? jekel = "";
   DateTime selectedDate = DateTime.now();
@@ -73,6 +81,13 @@ class _ProfilePagesState extends State<ProfilePages> {
         jekel = widget.jekel!;
         tglLahir = widget.tglLahir!;
         alamat = widget.alamat!;
+
+        _nama.text = widget.nama!;
+        _email.text = widget.email!;
+        _nomorHp.text = widget.nomorHp!;
+        _tglLahir.text = widget.tglLahir!;
+        _alamat.text = widget.alamat!;
+
       });
     }
   }
@@ -184,6 +199,7 @@ class _ProfilePagesState extends State<ProfilePages> {
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
                 //memasukkan data nama
+                controller: _nama,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
@@ -209,6 +225,8 @@ class _ProfilePagesState extends State<ProfilePages> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
+                //memasukkan data email
+                controller: _email,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 style:
@@ -236,6 +254,8 @@ class _ProfilePagesState extends State<ProfilePages> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
+                //memasukkan data nomor hp
+                controller: _nomorHp,
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
                 style:
@@ -361,10 +381,19 @@ class _ProfilePagesState extends State<ProfilePages> {
   Widget buildButtonSave() {
     return ElevatedButton(
         onPressed: () {
-          //memanggil updateData untuk mengupdate data
-          updateData();
+          //memanggil updateData pada auth_controller untuk mengupdate data 
+          auth.updateData(
+            nama!,
+            email!,
+            nomorHp!,
+            jekel!,
+            tglLahir!,
+            alamat!,
+            context,
+          );
         },
-        
+
+
         style: ButtonStyle(
             backgroundColor: MaterialStatePropertyAll(colorButton),
             shape: MaterialStatePropertyAll(RoundedRectangleBorder(

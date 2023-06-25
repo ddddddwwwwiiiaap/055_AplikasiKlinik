@@ -7,17 +7,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthController {
+
+      String? uid;
+  String? nama;
+  String? email;
+  String? role;
+  String? nomorHp;
+  String? jekel;
+  String? tglLahir;
+  String? alamat; 
+  final bool isEdit;
+    AuthController(
+      {Key? key,
+      this.uid,
+      this.nama,
+      this.email,
+      this.role,
+      this.nomorHp,
+      this.jekel,
+      this.tglLahir,
+      this.alamat,
+      required this.isEdit})
+      : super();
+
   final formkey = GlobalKey<FormState>();
   // String? email;
   String? password;
-
-  String? nama; 
-  String? email;
-  String? role; 
-  String? nomorHp;
-  String? tglLahir;
-  String? alamat;
-    String? jekel = "";
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final CollectionReference userCollection =
@@ -219,22 +234,28 @@ class AuthController {
     }
   }
 
-  Future<dynamic> updateData(BuildContext context, bool isEdit, String uid) async {
+  Future<dynamic> updateData(
+      String nama,
+      String email,
+      String nomorHp,
+      String jekel,
+      String tglLahir,
+      String alamat,
+      BuildContext context) async {
     if (isEdit) {
       DocumentReference documentReference =
-          FirebaseFirestore.instance.collection('users').doc(uid);
+          FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid);
 
       FirebaseFirestore.instance.runTransaction((transaction) async {
-        DocumentSnapshot documentSnapshot =
-            await transaction.get(documentReference);
+        DocumentSnapshot snapshot = await transaction.get(documentReference);
 
-        if (documentSnapshot.exists) {
-          transaction.update(documentReference, <String, dynamic>{
+        if (snapshot.exists) {
+          await transaction.update(documentReference, {
             'nama': nama,
             'email': email,
-            'nomor hp': nomorHp,
-            'jenis kelamin': jekel,
-            'tanggal lahir': tglLahir,
+            'nomorhp': nomorHp,
+            'jekel': jekel,
+            'tglLahir': tglLahir,
             'alamat': alamat,
           });
         }
@@ -271,5 +292,4 @@ class AuthController {
       },
     );
   }
-
 }
