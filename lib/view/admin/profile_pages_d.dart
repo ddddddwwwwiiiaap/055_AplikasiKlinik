@@ -1,4 +1,4 @@
-import 'package:aplikasiklinik/controller/profile_controller_admin.dart';
+import 'package:aplikasiklinik/controller/auth_controller.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,6 +36,14 @@ class ProfilePagesAdmin extends StatefulWidget {
 }
 
 class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
+    var auth = AuthController(isEdit: true);
+      String? uId;
+  String? nama;
+  String? email;
+  String? nomorHp;
+  String? tglLahir;
+  String? alamat;
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nama = TextEditingController();
   final TextEditingController _email = TextEditingController();
@@ -43,7 +51,7 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
   final TextEditingController _tglLahir = TextEditingController();
   final TextEditingController _alamat = TextEditingController();
 
-  String _jekel = "";
+  String? jekel = "";
   DateTime selectedDate = DateTime.now();
   String? setDate, setTime;
 
@@ -66,66 +74,20 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
     super.initState();
     if (widget.isEdit) {
       setState(() {
+        nama = widget.nama!;
+        email = widget.email!;
+        nomorHp = widget.nomorHp!;
+        jekel = widget.jekel!;
+        tglLahir = widget.tglLahir!;
+        alamat = widget.alamat!;
+
         _nama.text = widget.nama!;
         _email.text = widget.email!;
         _nomorHp.text = widget.nomorHp!;
-        _jekel = widget.jekel!;
         _tglLahir.text = widget.tglLahir!;
         _alamat.text = widget.alamat!;
       });
     }
-  }
-
-  Future<dynamic> updateData() async {
-    if (widget.isEdit) {
-      DocumentReference documentReference =
-          FirebaseFirestore.instance.collection('users').doc(widget.uid);
-
-      FirebaseFirestore.instance.runTransaction((transaction) async {
-        DocumentSnapshot documentSnapshot =
-            await transaction.get(documentReference);
-
-        if (documentSnapshot.exists) {
-          transaction.update(documentReference, <String, dynamic>{
-            'nama': _nama.text,
-            'email': _email.text,
-            'nomor hp': _nomorHp.text,
-            'jenis kelamin': _jekel,
-            'tanggal lahir': _tglLahir.text,
-            'alamat': _alamat.text
-          });
-        }
-      });
-
-      infoUpdate();
-    }
-  }
-
-  infoUpdate() {
-    showDialog(
-        context: context,
-        builder: (_) {
-          return AlertDialog(
-            title: const Text(titleSuccess),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Text(
-                  "Data Pribadi Anda Berhasil di Perbarui",
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, '/homePagesAdmin'),
-                  child: Text(
-                    "OK",
-                    style: TextStyle(color: colorPinkText),
-                  ))
-            ],
-          );
-        });
   }
 
   @override
@@ -133,7 +95,7 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleProfile),
+        title: const Text(titleProfile),
       ),
       body: SizedBox(
         width: size.width,
@@ -163,7 +125,7 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
                 "assets/ellipse/ellipse1.png",
                 width: size.width / 1.8,
               ),
-              Positioned.fill(
+              const Positioned.fill(
                   left: 0,
                   top: 36,
                   right: 0,
@@ -193,6 +155,7 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
+                //memasukkan data nama
                 controller: _nama,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
@@ -206,6 +169,11 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
                     return '$textNama Salah!';
                   }
                 },
+                onChanged: (value) {
+                  setState(() {
+                    nama = value;
+                  });
+                },
               ),
             ),
             Container(
@@ -214,6 +182,7 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
+                //memasukkan data email
                 controller: _email,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
@@ -229,6 +198,13 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
                     return '$textEmail Salah!';
                   }
                 },
+                onChanged: (value) {
+                  setState(
+                    () {
+                      email = value;
+                    },
+                  );
+                },
               ),
             ),
             Container(
@@ -237,6 +213,7 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
+                //memasukkan data nomor hp
                 controller: _nomorHp,
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
@@ -252,11 +229,16 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
                     return '$textNomorHP Salah!';
                   }
                 },
+                onChanged: (value) {
+                  setState(() {
+                    nomorHp = value;
+                  });
+                },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 4, bottom: 4),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
+              child: Text(
                 "Jenis Kelamin",
                 style: TextStyle(),
               ),
@@ -266,10 +248,10 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
                 Radio(
                     activeColor: colorPinkText,
                     value: "Pria",
-                    groupValue: _jekel,
+                    groupValue: jekel,
                     onChanged: (value) {
                       setState(() {
-                        _jekel = value!;
+                        jekel = value!;
                       });
                     }),
                 const Text(
@@ -282,10 +264,10 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
                 Radio(
                     activeColor: colorPinkText,
                     value: "Wanita",
-                    groupValue: _jekel,
-                    onChanged: (value) {
+                    groupValue: jekel,
+                    onChanged: (String? value) {
                       setState(() {
-                        _jekel = value!;
+                        jekel = value!;
                       });
                     }),
                 const Text(
@@ -300,15 +282,18 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
               },
               child: Container(
                 width: size.width,
-                margin: EdgeInsets.only(top: 8, left: 16, right: 16),
+                margin: const EdgeInsets.only(top: 8, left: 16, right: 16),
                 alignment: Alignment.center,
-                decoration: BoxDecoration(color: colorButtonHome),
+                decoration: const BoxDecoration(color: colorButtonHome),
                 child: TextFormField(
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                   enabled: false,
                   keyboardType: TextInputType.text,
                   controller: _tglLahir,
                   onSaved: (String? val) {
+                    setDate = val!;
+                  },
+                  onChanged: (String? val) {
                     setDate = val!;
                   },
                   decoration: InputDecoration(
@@ -317,8 +302,8 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
                         color: colorPrimary,
                       ),
                       disabledBorder:
-                          UnderlineInputBorder(borderSide: BorderSide.none),
-                      contentPadding: EdgeInsets.only(top: 12)),
+                          const UnderlineInputBorder(borderSide: BorderSide.none),
+                      contentPadding: const EdgeInsets.only(top: 12)),
                 ),
               ),
             ),
@@ -328,6 +313,7 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
+                //memasukkan data alamat
                 controller: _alamat,
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.done,
@@ -343,6 +329,11 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
                     return '$textAlamat Salah!';
                   }
                 },
+                onChanged: (value) {
+                  setState(() {
+                    alamat = value;
+                  });
+                },
               ),
             )
           ],
@@ -351,15 +342,25 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
 
   Widget buildButtonSave() {
     return ElevatedButton(
-      onPressed: updateData,
-      style: ButtonStyle(
-          backgroundColor: MaterialStatePropertyAll(colorButton),
+onPressed: () {
+          //memanggil updateData pada auth_controller untuk mengupdate data
+          auth.updateDataadmin(
+            nama!,
+            email!,
+            nomorHp!,
+            jekel!,
+            tglLahir!,
+            alamat!,
+            context,
+          );
+        },      style: ButtonStyle(
+          backgroundColor: const MaterialStatePropertyAll(colorButton),
           shape: MaterialStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)))),
       child: Container(
         width: 120,
         height: 40,
-        child: Center(
+        child: const Center(
           child: Text(
             textButtonSave,
             style: TextStyle(

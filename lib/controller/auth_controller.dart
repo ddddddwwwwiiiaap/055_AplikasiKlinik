@@ -7,17 +7,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthController {
-
-      String? uid;
+  String? uid;
   String? nama;
   String? email;
   String? role;
   String? nomorHp;
   String? jekel;
   String? tglLahir;
-  String? alamat; 
+  String? alamat;
   final bool isEdit;
-    AuthController(
+  AuthController(
       {Key? key,
       this.uid,
       this.nama,
@@ -243,8 +242,9 @@ class AuthController {
       String alamat,
       BuildContext context) async {
     if (isEdit) {
-      DocumentReference documentReference =
-          FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid);
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('users')
+          .doc(auth.currentUser!.uid);
 
       FirebaseFirestore.instance.runTransaction((transaction) async {
         DocumentSnapshot snapshot = await transaction.get(documentReference);
@@ -282,6 +282,66 @@ class AuthController {
           actions: [
             TextButton(
               onPressed: () => Navigator.pushNamed(context, '/homePages'),
+              child: Text(
+                "OK",
+                style: TextStyle(color: colorPinkText),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<dynamic> updateDataadmin(
+      String nama,
+      String email,
+      String nomorHp,
+      String jekel,
+      String tglLahir,
+      String alamat,
+      BuildContext context) async {
+    if (isEdit) {
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('users')
+          .doc(auth.currentUser!.uid);
+
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snapshot = await transaction.get(documentReference);
+
+        if (snapshot.exists) {
+          await transaction.update(documentReference, {
+            'nama': nama,
+            'email': email,
+            'nomorhp': nomorHp,
+            'jekel': jekel,
+            'tglLahir': tglLahir,
+            'alamat': alamat,
+          });
+        }
+      });
+
+      infoUpdateadmin(context);
+    }
+  }
+
+  void infoUpdateadmin(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text(titleSuccess),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text(
+                "Data Pribadi Anda Berhasil di Perbarui",
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pushNamed(context, '/homePagesAdmin'),
               child: Text(
                 "OK",
                 style: TextStyle(color: colorPinkText),
