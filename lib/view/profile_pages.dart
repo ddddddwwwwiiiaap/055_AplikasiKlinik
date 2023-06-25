@@ -1,3 +1,4 @@
+import 'package:aplikasiklinik/controller/auth_controller.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
@@ -33,14 +34,15 @@ class ProfilePages extends StatefulWidget {
 }
 
 class _ProfilePagesState extends State<ProfilePages> {
+  var auth = AuthController();
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController nama = TextEditingController();
-  final TextEditingController email = TextEditingController();
-  final TextEditingController role = TextEditingController();
-  final TextEditingController nomorHp = TextEditingController();
-  final TextEditingController tglLahir = TextEditingController();
-  final TextEditingController alamat = TextEditingController();
+  String? nama; 
+  String? email;
+  String? role; 
+  String? nomorHp;
+  String? tglLahir;
+  String? alamat;
 
   String? jekel = "";
   DateTime selectedDate = DateTime.now();
@@ -56,7 +58,7 @@ class _ProfilePagesState extends State<ProfilePages> {
     if (picked != null)
       setState(() {
         selectedDate = picked;
-        tglLahir.text = DateFormat.yMd().format(selectedDate);
+        tglLahir = DateFormat.yMd().format(selectedDate);
       });
   }
 
@@ -65,12 +67,12 @@ class _ProfilePagesState extends State<ProfilePages> {
     super.initState();
     if (widget.isEdit) {
       setState(() {
-        nama.text = widget.nama!;
-        email.text = widget.email!;
-        nomorHp.text = widget.nomorHp!;
+        nama = widget.nama!;
+        email = widget.email!;
+        nomorHp = widget.nomorHp!;
         jekel = widget.jekel!;
-        tglLahir.text = widget.tglLahir!;
-        alamat.text = widget.alamat!;
+        tglLahir = widget.tglLahir!;
+        alamat = widget.alamat!;
       });
     }
   }
@@ -86,12 +88,12 @@ class _ProfilePagesState extends State<ProfilePages> {
 
         if (documentSnapshot.exists) {
           transaction.update(documentReference, <String, dynamic>{
-            'nama': nama.text,
-            'email': email.text,
-            'nomor hp': nomorHp.text,
+            'nama': nama,
+            'email': email,
+            'nomor hp': nomorHp,
             'jenis kelamin': jekel,
-            'tanggal lahir': tglLahir.text,
-            'alamat': alamat.text
+            'tanggal lahir': tglLahir,
+            'alamat': alamat,
           });
         }
       });
@@ -181,7 +183,7 @@ class _ProfilePagesState extends State<ProfilePages> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
-                controller: nama,
+                //memasukkan data nama
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
@@ -194,6 +196,11 @@ class _ProfilePagesState extends State<ProfilePages> {
                     return '$textNama Salah!';
                   }
                 },
+                onChanged: (value) {
+                  setState(() {
+                    nama = value;
+                  });
+                },
               ),
             ),
             Container(
@@ -202,7 +209,6 @@ class _ProfilePagesState extends State<ProfilePages> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
-                controller: email,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 style:
@@ -217,6 +223,11 @@ class _ProfilePagesState extends State<ProfilePages> {
                     return '$textEmail Salah!';
                   }
                 },
+                onChanged: (value) {
+                  setState(() {
+                    email = value;
+                  },);
+                },
               ),
             ),
             Container(
@@ -225,7 +236,6 @@ class _ProfilePagesState extends State<ProfilePages> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
-                controller: nomorHp,
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
                 style:
@@ -239,6 +249,11 @@ class _ProfilePagesState extends State<ProfilePages> {
                   } else {
                     return '$textNomorHP Salah!';
                   }
+                },
+                onChanged: (value) {
+                  setState(() {
+                    nomorHp = value;
+                  });
                 },
               ),
             ),
@@ -295,8 +310,10 @@ class _ProfilePagesState extends State<ProfilePages> {
                   style: TextStyle(fontSize: 18),
                   enabled: false,
                   keyboardType: TextInputType.text,
-                  controller: tglLahir,
                   onSaved: (String? val) {
+                    setDate = val!;
+                  },
+                  onChanged: (String? val) {
                     setDate = val!;
                   },
                   decoration: InputDecoration(
@@ -316,7 +333,6 @@ class _ProfilePagesState extends State<ProfilePages> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: TextFormField(
-                controller: alamat,
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.done,
                 style:
@@ -331,6 +347,11 @@ class _ProfilePagesState extends State<ProfilePages> {
                     return '$textAlamat Salah!';
                   }
                 },
+                onChanged: (value) {
+                  setState(() {
+                    alamat = value;
+                  });
+                },
               ),
             )
           ],
@@ -339,7 +360,11 @@ class _ProfilePagesState extends State<ProfilePages> {
 
   Widget buildButtonSave() {
     return ElevatedButton(
-        onPressed: updateData,
+        onPressed: () {
+          //memanggil updateData untuk mengupdate data
+          updateData();
+        },
+        
         style: ButtonStyle(
             backgroundColor: MaterialStatePropertyAll(colorButton),
             shape: MaterialStatePropertyAll(RoundedRectangleBorder(

@@ -8,8 +8,16 @@ import 'package:flutter/material.dart';
 
 class AuthController {
   final formkey = GlobalKey<FormState>();
-  String? email;
+  // String? email;
   String? password;
+
+  String? nama; 
+  String? email;
+  String? role; 
+  String? nomorHp;
+  String? tglLahir;
+  String? alamat;
+    String? jekel = "";
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final CollectionReference userCollection =
@@ -210,4 +218,58 @@ class AuthController {
       });
     }
   }
+
+  Future<dynamic> updateData(BuildContext context, bool isEdit, String uid) async {
+    if (isEdit) {
+      DocumentReference documentReference =
+          FirebaseFirestore.instance.collection('users').doc(uid);
+
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot documentSnapshot =
+            await transaction.get(documentReference);
+
+        if (documentSnapshot.exists) {
+          transaction.update(documentReference, <String, dynamic>{
+            'nama': nama,
+            'email': email,
+            'nomor hp': nomorHp,
+            'jenis kelamin': jekel,
+            'tanggal lahir': tglLahir,
+            'alamat': alamat,
+          });
+        }
+      });
+
+      infoUpdate(context);
+    }
+  }
+
+  void infoUpdate(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text(titleSuccess),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text(
+                "Data Pribadi Anda Berhasil di Perbarui",
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pushNamed(context, '/homePages'),
+              child: Text(
+                "OK",
+                style: TextStyle(color: colorPinkText),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
