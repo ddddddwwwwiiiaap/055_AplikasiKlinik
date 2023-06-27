@@ -36,8 +36,8 @@ class ProfilePagesAdmin extends StatefulWidget {
 }
 
 class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
-    var auth = AuthController(isEdit: true);
-      String? uId;
+  var auth = AuthController(isEdit: true);
+  String? uId;
   String? nama;
   String? email;
   String? nomorHp;
@@ -301,8 +301,8 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
                         Icons.calendar_month,
                         color: colorPrimary,
                       ),
-                      disabledBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide.none),
+                      disabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide.none),
                       contentPadding: const EdgeInsets.only(top: 12)),
                 ),
               ),
@@ -342,18 +342,19 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
 
   Widget buildButtonSave() {
     return ElevatedButton(
-onPressed: () {
-          //memanggil updateData pada auth_controller untuk mengupdate data
-          auth.updateDataadmin(
-            nama!,
-            email!,
-            nomorHp!,
-            jekel!,
-            tglLahir!,
-            alamat!,
-            context,
-          );
-        },      style: ButtonStyle(
+      onPressed: () {
+        //memanggil updateData pada auth_controller untuk mengupdate data
+        auth.updateDataadmin(
+          nama!,
+          email!,
+          nomorHp!,
+          jekel!,
+          tglLahir!,
+          alamat!,
+          context,
+        );
+      },
+      style: ButtonStyle(
           backgroundColor: const MaterialStatePropertyAll(colorButton),
           shape: MaterialStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)))),
