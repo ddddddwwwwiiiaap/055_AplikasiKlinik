@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:aplikasiklinik/view/pasien/home_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -186,7 +187,10 @@ class _PendaftaranState extends State<Pendaftaran> {
             actions: [
               TextButton(
                   onPressed: () =>
-                      Navigator.popAndPushNamed(context, '/homePages'),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePages()),
+                  ),
                   child: const Text(
                     'OK',
                     style: TextStyle(color: colorPinkText),
@@ -397,51 +401,6 @@ class _PendaftaranState extends State<Pendaftaran> {
                   fontSize: 16),
             ))));
   }
-
-  // Widget buildButtonDaftar() {
-  //   return ElevatedButton(
-  //     onPressed: () {
-  //       if (_formKey.currentState!.validate()) {
-  //         PendaftaranPasienModel ppm = PendaftaranPasienModel(
-  //           noantrian: noantrian!.toInt(),
-  //           status: 'Menunggu',
-  //           waktuantrian: waktuantrian.text,
-  //           tanggalantrian: tanggalantrian.text,
-  //           poli: namaPoli!,
-  //         );
-
-  //         pendaftaranController.addPendaftaran(ppm).then(
-  //           (_) {
-  //             Navigator.push(
-  //               context,
-  //               MaterialPageRoute(builder: (context) => Pendaftaran()),
-  //             );
-
-  //             ScaffoldMessenger.of(context).showSnackBar(
-  //               const SnackBar(
-  //                 content: Text(
-  //                   'Contact Added',
-  //                   style: TextStyle(fontSize: 18),
-  //                 ),
-  //                 duration: Duration(seconds: 2),
-  //                 backgroundColor: Colors.green,
-  //               ),
-  //             );
-  //           },
-  //         );
-  //       }
-  //     },
-  //     child: const Text(
-  //       "Daftar",
-  //       style: TextStyle(fontSize: 18),
-  //     ),
-  //     style: ElevatedButton.styleFrom(
-  //       primary: colorButtonHome,
-  //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-  //     ),
-  //   );
-  // }
 
   Widget buildFooter(Size size) {
     return Container(

@@ -183,14 +183,16 @@ class AuthController {
   }
 
   // Fungsi login
-  Future<dynamic> login(
+  Future<UsersModel?> login(
       String email, String password, BuildContext context) async {
     showAlertDialogLoading(context);
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final UserCredential userCredential = await auth
+      .signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      final User? user = userCredential.user;
 
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(
