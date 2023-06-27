@@ -186,11 +186,10 @@ class _PendaftaranState extends State<Pendaftaran> {
             content: const Text('Antrian Anda Telah Terdaftar!'),
             actions: [
               TextButton(
-                  onPressed: () =>
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePages()),
-                  ),
+                  onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePages()),
+                      ),
                   child: const Text(
                     'OK',
                     style: TextStyle(color: colorPinkText),
@@ -241,46 +240,55 @@ class _PendaftaranState extends State<Pendaftaran> {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      "Poli",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  padding: const EdgeInsets.symmetric(horizontal: 16),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Padding(
+        padding: EdgeInsets.only(bottom: 8),
+        child: Text(
+          "Poli",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+      ),
+      FutureBuilder<List>(
+        future: pendaftaranController.getPolis(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) print(snapshot.error);
+          return snapshot.hasData
+              ? DropdownButtonFormField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  FutureBuilder<List>(
-                    future: pendaftaranController.getPolis(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) print(snapshot.error);
-                      return snapshot.hasData
-                          ? DropdownButtonFormField(
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8))),
-                              hint: const Text("Pilih Poli"),
-                              value: namaPoli,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  namaPoli = newValue.toString();
-                                });
-                              },
-                              items: snapshot.data!
-                                  .map((value) => DropdownMenuItem(
-                                        child: Text(value['namaPoli']),
-                                        value: value['namaPoli'],
-                                      ))
-                                  .toList(),
-                            )
-                          : const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                    },
-                  ),
+                  hint: const Text("Pilih Poli"),
+                  value: namaPoli,
+                  onChanged: (newValue) {
+                    setState(() {
+                      namaPoli = newValue.toString();
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.toString().isEmpty) {
+                      return 'Pilih salah satu poli';
+                    }
+                    return null;
+                  },
+                  items: snapshot.data!
+                      .map((value) => DropdownMenuItem(
+                            child: Text(value['namaPoli']),
+                            value: value['namaPoli'],
+                          ))
+                      .toList(),
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                );
+        },
+      ),
+      
+
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
