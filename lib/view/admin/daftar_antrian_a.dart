@@ -130,8 +130,9 @@ class _DaftarAntrianPagesAdminState extends State<DaftarAntrianPagesAdmin> {
   }
 
   updateNoAntrianSedangDilayani(noAntrian) {
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('sedang dilayani').doc('avpg6d1x7v6iAnmkVERw');
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection('sedang dilayani')
+        .doc('avpg6d1x7v6iAnmkVERw');
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       DocumentSnapshot documentSnapshot =
@@ -208,7 +209,7 @@ class _DaftarAntrianPagesAdminState extends State<DaftarAntrianPagesAdmin> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   child: Container(
-                       padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: ListTile(
                         title: Text(
                             "${data['uid pasien']}"

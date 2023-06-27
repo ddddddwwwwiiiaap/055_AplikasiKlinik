@@ -2,7 +2,10 @@ import 'package:aplikasiklinik/model/users_model.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
+import 'package:aplikasiklinik/view/admin/daftar_antrian_a.dart';
+import 'package:aplikasiklinik/view/admin/poli.dart';
 import 'package:aplikasiklinik/view/admin/profile_pages_a.dart';
+import 'package:aplikasiklinik/view/admin/riwayat_pasien_masuk.dart';
 import 'package:aplikasiklinik/view/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -175,7 +178,10 @@ class _HomePagesAdminState extends State<HomePagesAdmin> {
           //poli
           ListTile( 
             onTap: () => 
-                Navigator.pushNamed(context, '/poliPagesAdmin'),
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Poli()),
+              ),
             leading: Image.asset(
               "assets/icon/icon_daftar_antrian.png",
               width: 24,
@@ -186,7 +192,10 @@ class _HomePagesAdminState extends State<HomePagesAdmin> {
           ),
           ListTile(
             onTap: () =>
-                Navigator.pushNamed(context, '/daftarAntrianPagesAdmin'),
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const DaftarAntrianPagesAdmin()),
+              ),
             leading: Image.asset(
               "assets/icon/icon_daftar_antrian.png",
               width: 24,
@@ -196,7 +205,11 @@ class _HomePagesAdminState extends State<HomePagesAdmin> {
             ),
           ),
           ListTile(
-            onTap: () => Navigator.pushNamed(context, '/riwayatPasienMasuk'),
+            onTap: () => 
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RiwayatPasienMasuk()),
+              ),
             leading: Image.asset(
               "assets/icon/icon_history.png",
               width: 24,
