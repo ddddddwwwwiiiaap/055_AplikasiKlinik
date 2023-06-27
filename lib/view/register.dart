@@ -77,7 +77,10 @@ class _RegisterState extends State<Register> {
             Center(
               child: TextButton(
                 onPressed: () =>
-                    Navigator.popAndPushNamed(context, '/loginPages'),
+                    Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+              ),
                 child: const Text(
                   'OK',
                   style: TextStyle(color: colorPinkText),
