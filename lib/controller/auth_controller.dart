@@ -1,6 +1,7 @@
 import 'package:aplikasiklinik/model/users_model.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
+import 'package:aplikasiklinik/view/pasien/home_pages.dart';
 import 'package:aplikasiklinik/view/role_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -196,7 +197,7 @@ class AuthController {
     }
   }
 
-  Future<dynamic> updateData(
+  Future<UsersModel?> updateData(
       String nama,
       String email,
       String nomorHp,
@@ -244,7 +245,10 @@ class AuthController {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pushNamed(context, '/homePages'),
+              onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePages()),
+                  ),
               child: Text(
                 "OK",
                 style: TextStyle(color: colorPinkText),
