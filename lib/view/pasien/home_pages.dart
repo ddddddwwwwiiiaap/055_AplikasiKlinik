@@ -1,5 +1,4 @@
 import 'package:aplikasiklinik/controller/auth_controller.dart';
-import 'package:aplikasiklinik/controller/homepagespasien_controller.dart';
 import 'package:aplikasiklinik/model/users_model.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
@@ -22,7 +21,6 @@ class HomePages extends StatefulWidget {
 }
 
 class _HomePagesState extends State<HomePages> {
-  var hppc = HomePagesPasienController();
   var auth = AuthController(isEdit: false);
 
   String? uId;

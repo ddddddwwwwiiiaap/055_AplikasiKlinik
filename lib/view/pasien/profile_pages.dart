@@ -344,7 +344,7 @@ class _ProfilePagesState extends State<ProfilePages> {
     return ElevatedButton(
         onPressed: () async {
           //memanggil updateData pada auth_controller untuk mengupdate data
-          UsersModel? profile = await auth.updateData(
+          UsersModel? profile_pasien = await auth.updateData(
             nama!,
             email!,
             nomorHp!,
@@ -353,7 +353,7 @@ class _ProfilePagesState extends State<ProfilePages> {
             alamat!,
             context,
           );
-          if (profile != null){
+          if (profile_pasien != null){
           }
         },
         style: ButtonStyle(

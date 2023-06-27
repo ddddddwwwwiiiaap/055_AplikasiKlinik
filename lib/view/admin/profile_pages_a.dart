@@ -1,4 +1,5 @@
 import 'package:aplikasiklinik/controller/auth_controller.dart';
+import 'package:aplikasiklinik/model/users_model.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -342,9 +343,9 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
 
   Widget buildButtonSave() {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         //memanggil updateData pada auth_controller untuk mengupdate data
-        auth.updateDataadmin(
+        UsersModel? profile_admin = await auth.updateDataadmin(
           nama!,
           email!,
           nomorHp!,
@@ -353,6 +354,8 @@ class _ProfilePagesAdminState extends State<ProfilePagesAdmin> {
           alamat!,
           context,
         );
+        if (profile_admin != null) {
+        }
       },
       style: ButtonStyle(
           backgroundColor: const MaterialStatePropertyAll(colorButton),

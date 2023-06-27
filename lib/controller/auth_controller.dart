@@ -1,6 +1,7 @@
 import 'package:aplikasiklinik/model/users_model.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
+import 'package:aplikasiklinik/view/admin/home_pages_a.dart';
 import 'package:aplikasiklinik/view/pasien/home_pages.dart';
 import 'package:aplikasiklinik/view/role_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -149,8 +150,8 @@ class AuthController {
       String email, String password, BuildContext context) async {
     showAlertDialogLoading(context);
     try {
-      final UserCredential userCredential = await auth
-      .signInWithEmailAndPassword(
+      final UserCredential userCredential =
+          await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -235,9 +236,9 @@ class AuthController {
       builder: (_) {
         return AlertDialog(
           title: const Text(titleSuccess),
-          content: Column(
+          content: const Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               Text(
                 "Data Pribadi Anda Berhasil di Perbarui",
               ),
@@ -246,10 +247,10 @@ class AuthController {
           actions: [
             TextButton(
               onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePages()),
-                  ),
-              child: Text(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePages()),
+              ),
+              child: const Text(
                 "OK",
                 style: TextStyle(color: colorPinkText),
               ),
@@ -260,7 +261,7 @@ class AuthController {
     );
   }
 
-  Future<dynamic> updateDataadmin(
+  Future<UsersModel?> updateDataadmin(
       String nama,
       String email,
       String nomorHp,
@@ -298,9 +299,9 @@ class AuthController {
       builder: (_) {
         return AlertDialog(
           title: const Text(titleSuccess),
-          content: Column(
+          content: const Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               Text(
                 "Data Pribadi Anda Berhasil di Perbarui",
               ),
@@ -308,8 +309,11 @@ class AuthController {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pushNamed(context, '/homePagesAdmin'),
-              child: Text(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePagesAdmin()),
+              ),
+              child: const Text(
                 "OK",
                 style: TextStyle(color: colorPinkText),
               ),
