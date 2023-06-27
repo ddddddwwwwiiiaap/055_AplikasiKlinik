@@ -52,12 +52,12 @@ class _NextPagesState extends State<NextPages> {
             right: 0,
             bottom: 0,
             child: Container(
-              padding: EdgeInsets.only(left: 24),
-              child: Column(
+              padding: const EdgeInsets.only(left: 24),
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 24),
+                    padding: EdgeInsets.only(bottom: 24),
                     child: Text(textWelcome, style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
                   ),
                   Text("Kami Siap Melayani\nAnda", style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),)
@@ -78,18 +78,18 @@ class _NextPagesState extends State<NextPages> {
   Widget buildDescApp() {
     return Container(
       margin: const EdgeInsets.only(bottom: 90),
-      child: Center(child: Text(descApp, style: TextStyle(color: Colors.white, fontSize: 16), textAlign: TextAlign.center,)));
+      child: const Center(child: Text(descApp, style: TextStyle(color: Colors.white, fontSize: 16), textAlign: TextAlign.center,)));
   }
 
   Widget buildButtonNext() {
     return ElevatedButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Login())), 
     style: ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(colorButton),
+      backgroundColor: const MaterialStatePropertyAll(colorButton),
       shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)))
     ),
     child: Container(
       width: 120,
       height: 40,
-      child: Center(child: Text(textNext, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),))));
+      child: const Center(child: Text(textNext, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),))));
   }
 }
