@@ -1,5 +1,5 @@
 import 'package:aplikasiklinik/controller/auth_controller.dart';
-import 'package:aplikasiklinik/view/admin/home_pages_d.dart';
+import 'package:aplikasiklinik/view/admin/home_pages_a.dart';
 import 'package:aplikasiklinik/view/pasien/home_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -1,7 +1,8 @@
+import 'package:aplikasiklinik/model/users_model.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
-import 'package:aplikasiklinik/view/admin/profile_pages_d.dart';
+import 'package:aplikasiklinik/view/admin/profile_pages_a.dart';
 import 'package:aplikasiklinik/view/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +30,7 @@ class _HomePagesAdminState extends State<HomePagesAdmin> {
   int? noAntrian;
   String? poli;
 
-  Future<dynamic> getUser() async {
+  Future<UsersModel?> getUser() async {
     await FirebaseFirestore.instance
         .collection('users')
         .where('uId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)

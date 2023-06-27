@@ -39,45 +39,6 @@ class AuthController {
 
   bool get succes => false;
 
-  Future<UsersModel?> signInWithEmailAndPassword(
-      String email, String password, BuildContext context) async {
-    try {
-      final UserCredential userCredential = await auth
-          .signInWithEmailAndPassword(email: email, password: password);
-      final User? user = userCredential.user;
-
-      if (user != null) {
-        final DocumentSnapshot snapshot =
-            await userCollection.doc(user.uid).get();
-
-        final UsersModel currentUser = UsersModel(
-          uId: user.uid,
-          nama: snapshot['nama'] ?? '',
-          email: user.email ?? '',
-          role: snapshot['role'] ?? '',
-          nomorhp: snapshot['nomorhp'] ?? '',
-          jekel: snapshot['jekel'] ?? '',
-          tglLahir: snapshot['tglLahir'] ?? '',
-          alamat: snapshot['alamat'] ?? '',
-          noAntrian: snapshot['noAntrian'] ?? '',
-          poli: snapshot['poli'] ?? '',
-        );
-
-        return currentUser;
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        showAlertUserNotFound(context);
-      } else if (e.code == 'wrong-password') {
-        showAlertUserWrongPassword(context);
-      }
-    } catch (e) {
-      // Tambahkan kode yang sesuai di sini untuk menangani kesalahan umum
-    }
-
-    return null;
-  }
-
   Future<UsersModel?> registerWithEmailAndPassword(
       String email, String password, String nama, String role) async {
     try {
@@ -209,7 +170,7 @@ class AuthController {
     }
   }
 
-  Future<dynamic> getUser() async {
+  Future<UsersModel?> getUser() async {
     final User? user = auth.currentUser;
     if (user != null) {
       await FirebaseFirestore.instance

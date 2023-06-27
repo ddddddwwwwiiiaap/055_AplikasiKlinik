@@ -1,5 +1,6 @@
 import 'package:aplikasiklinik/controller/auth_controller.dart';
 import 'package:aplikasiklinik/controller/homepagespasien_controller.dart';
+import 'package:aplikasiklinik/model/users_model.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
 import 'package:aplikasiklinik/utils/constants.dart';
@@ -59,7 +60,7 @@ class _HomePagesState extends State<HomePages> {
         });
   }
 
-  Future<dynamic> getUser() async {
+  Future<UsersModel?> getUser() async {
     await FirebaseFirestore.instance
         .collection('users')
         .where('uId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
