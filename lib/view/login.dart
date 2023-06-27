@@ -28,7 +28,7 @@ class _LoginState extends State<Login> {
       _showPassword = !_showPassword;
     });
   }
-
+  
   displaySnackBar(text) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
@@ -178,27 +178,29 @@ class _LoginState extends State<Login> {
 
   Widget buildButtonLogin() {
     return ElevatedButton(
-      onPressed: () {
-        if (formkey.currentState!.validate()) {
-          authCtr.login(email!, password!, context);
-        }
-      },
-      style: ButtonStyle(
-          backgroundColor: const MaterialStatePropertyAll(colorButton),
-          shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)))),
-      child: Container(
-        width: 120,
-        height: 40,
-        child: const Center(
-          child: Text(
-            titleLogin,
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-        ),
-      ),
-    );
+        onPressed: () async {
+          if (formkey.currentState!.validate()) {
+            UsersModel? loginUser = await authCtr.login(email!, password!, context,
+            );
+            if (loginUser != null) {
+            }
+          }
+        },
+        style: ButtonStyle(
+            backgroundColor: const MaterialStatePropertyAll(colorButton),
+            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24)))),
+        child: Container(
+            width: 120,
+            height: 40,
+            child: const Center(
+                child: Text(
+              titleLogin,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ))));
   }
 
   Widget buildFooter() {
@@ -215,13 +217,12 @@ class _LoginState extends State<Login> {
             ),
           ),
           TextButton(
-            onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (_) => const Register())),
-            child: const Text(
-              titleRegister,
-              style: TextStyle(color: colorButton),
-            ),
-          ),
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => const Register())),
+              child: const Text(
+                titleRegister,
+                style: TextStyle(color: colorButton),
+              ))
         ],
       ),
     );
