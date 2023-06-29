@@ -284,12 +284,6 @@ class _RegisterState extends State<Register> {
             Navigator.pop(context); // Close the loading dialog
             if (registeredUser != null) {
               signUpDialog();
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const Login(),
-              //   ),
-              // );
             } else {
               showDialog(
                 context: context,

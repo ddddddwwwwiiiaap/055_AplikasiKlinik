@@ -1,4 +1,5 @@
 import 'package:aplikasiklinik/controller/auth_controller.dart';
+import 'package:aplikasiklinik/controller/home_pages_pasien_controller.dart';
 import 'package:aplikasiklinik/model/users_model.dart';
 import 'package:aplikasiklinik/themes/custom_colors.dart';
 import 'package:aplikasiklinik/themes/material_colors.dart';
@@ -22,6 +23,7 @@ class HomePages extends StatefulWidget {
 
 class _HomePagesState extends State<HomePages> {
   var auth = AuthController(isEdit: false);
+  var homePagesPasien = HomePagesPasienController();
 
   String? uId;
   String? nama;
@@ -49,7 +51,8 @@ class _HomePagesState extends State<HomePages> {
             title: const Text(titleLogout),
             content: const Text(contentLogout),
             actions: [
-              TextButton(onPressed: signOut, child: Text(textYa.toUpperCase())),
+              TextButton(onPressed: 
+              () => homePagesPasien.signOut(context), child: Text(textYa.toUpperCase())),
               TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: Text(textTidak.toUpperCase()))
@@ -82,14 +85,6 @@ class _HomePagesState extends State<HomePages> {
         }
       },
     );
-  }
-
-    Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const Login()),
-        (route) => false);
   }
 
   @override
